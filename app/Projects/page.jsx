@@ -11,8 +11,8 @@ const projectData = [
     tech_stack:"Next Js,Tailwind Css, Shacdb Ui, farmer motion ",
     description:
       "Explore my portfolio website crafted with precision using Next.js for a dynamic and seamless user experience. Styled with the elegance of Tailwind CSS, it embodies modern design principles and responsiveness. Powered by Shacdn UI, the website delivers a visually stunning showcase of my skills and accomplishments, providing a glimpse into the innovative and creative world of web development.",
-    link: "/",
-    github: "/",
+      link: "https://my-portfolio-nine-khaki-46.vercel.app/",
+      github: "https://github.com/Angadak/My-Portfolio",
   },
   // {
   //   Image: "/work/4.png",

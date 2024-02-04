@@ -23,8 +23,8 @@ const projectData = [
     tech_stack:"Next Js, Tailwind Css, Shacdb Ui, farmer motion ",
     description:
       "Explore my Next.js portfolio, elegantly styled with Tailwind CSS and powered by Shacdn UI. It showcases my skills and achievements, offering a glimpse into the innovative world of web development.",
-    link: "/",
-    github: "/",
+    link: "https://my-portfolio-nine-khaki-46.vercel.app/",
+    github: "https://github.com/Angadak/My-Portfolio",
   },
 //   {
 //     Image: "/work/4.png",
