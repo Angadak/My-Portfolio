@@ -26,15 +26,16 @@ const projectData = [
     link: "https://my-portfolio-nine-khaki-46.vercel.app/",
     github: "https://github.com/Angadak/My-Portfolio",
   },
-//   {
-//     Image: "/work/4.png",
-//     category: "javaScript",
-//     name: "portfolio",
-//     description:
-//       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Similiquecum necessitatibus ipsam tenetur natus. Totam voluptates beataelaudantium, quaerat quis cumque id delectus ad assumenda necessitatibus ullam ut quod placeat.",
-//     link: "/",
-//     github: "/",
-//   },
+  {
+    Image: "/work/tris-dashboard.png",
+    category: "Asp.Net Core",
+    name: "portfolio",
+    tech_stack:"ASP.NET CORE, ASP.NET CORE MVC, JQuery, Bootstrap",
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Similiquecum necessitatibus ipsam tenetur natus. Totam voluptates beataelaudantium, quaerat quis cumque id delectus ad assumenda necessitatibus ullam ut quod placeat.",
+    link: "https://www.dhillonfarm.com/",
+    github: "/",
+  },
 //   {
 //     Image: "/work/2.png",
 //     category: "Asp.net ",
