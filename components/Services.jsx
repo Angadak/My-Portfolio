@@ -43,11 +43,11 @@ const Services = () => {
                 key={index}
               >
                 <CardHeader className="text-primary absolute -top-[60px]">
-                  <div className="w-[140px] h-[80px] bg-white dark:bg-background flex justify-center items-center ">
+                  <div className="w-[70px] h-[40px] xl:w-[140px] xl:h-[80] bg-white dark:bg-background flex justify-center items-center ">
                     {item.icon}
                   </div>
                 </CardHeader>
-                <CardContent className="text-center">
+                <CardContent className="text-center xl:my-96">
                   <CardTitle className="mb-4 my-4">{item.title}</CardTitle>
                   <CardDescription className=" text-lg mb-4">
                     {item.description}

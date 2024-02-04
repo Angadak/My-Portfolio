@@ -22,7 +22,7 @@ const projectData = [
     name: "My Portfolio",
     tech_stack:"Next Js, Tailwind Css, Shacdb Ui, farmer motion ",
     description:
-      "Explore my Next.js portfolio, elegantly styled with Tailwind CSS and powered by Shacdn UI. It showcases my skills and achievements, offering a glimpse into the innovative world of web development.",
+      "Explore my sleek Next.js portfolio, styled with Tailwind CSS and powered by Shacdn UI. It highlights my skills, achievements, and the exciting realm of web development",
     link: "https://my-portfolio-nine-khaki-46.vercel.app/",
     github: "https://github.com/Angadak/My-Portfolio",
   },
