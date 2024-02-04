@@ -20,7 +20,7 @@ const projectData = [
     name: "TRIS Dashboard",
     tech_stack:"ASP.NET CORE, ASP.NET CORE MVC, JQuery, Bootstrap",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Similiquecum necessitatibus ipsam tenetur natus. Totam voluptates beataelaudantium, quaerat quis cumque id.",
+      "Currently spearheading the TRIS Dashboard project since September 2023, I leverage an array of cutting-edge technologies, including Asp.net, Asp.net Core MVC, C#, Entity Framework, OOPS, MYSQL, JavaScript, jQuery, and utilize Vs Code as my primary development tool. My primary responsibility revolves around crafting a seamless frontend experience within the Asp.net MVC framework. A notable achievement within this project has been overcoming a significant challenge – the implementation of Face Recognition for user login. Through strategic problem-solving and innovation, I successfully implemented face recognition, enhancing the security and user authentication processes of the TRIS Dashboard. This accomplishment underscores my commitment to pushing boundaries and incorporating innovative solutions in web development.",
     link: "https://www.dhillonfarm.com/",
     github: "/",
   },
