@@ -34,7 +34,7 @@ const projectData = [
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Similiquecum necessitatibus ipsam tenetur natus. Totam voluptates beataelaudantium, quaerat quis cumque id delectus ad assumenda necessitatibus ullam ut quod placeat.",
     link: "https://www.dhillonfarm.com/",
-   // github: "/",
+    github: "/",
   },
 //   {
 //     Image: "/work/2.png",
