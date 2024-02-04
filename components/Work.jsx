@@ -32,7 +32,7 @@ const projectData = [
     name: "TRIS Dashboard",
     tech_stack:"ASP.NET CORE, ASP.NET CORE MVC, JQuery, Bootstrap",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Similiquecum necessitatibus ipsam tenetur natus. Totam voluptates beataelaudantium, quaerat quis cumque id delectus ad assumenda necessitatibus ullam ut quod placeat.",
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Similiquecum necessitatibus ipsam tenetur natus. Totam voluptates beataelaudantium, quaerat quis cumque id.",
     link: "https://www.dhillonfarm.com/",
     github: "/",
   },
