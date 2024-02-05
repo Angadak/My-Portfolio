@@ -32,7 +32,7 @@ const ProjectCard = ({ project }) => {
       <div className="h-full px-8 py-6">
         <Badge className="uppercae text-sm font-medium mb-2 absolute top-4 left-5">{project.category}</Badge>
 
-        <Button className="mb-4">{project.name}</Button>
+        <Button className="mb-4  bg-blue-600 hover:bg-blue-100 text-black h-[35px]">{project.name}</Button>
         <h4 className="h5 mb-4">{project.tech_stack}</h4>
         <p className="text-muted-foreground text-lg">{project.description}</p>
       </div>

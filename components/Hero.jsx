@@ -13,7 +13,7 @@ import {
 import DevImg from "./DevImg";
 import Badge from "./Badge";
 import Socials from "./Socials";
-const Hero = () => {
+const Hero = () => {  
   return (
     <section className="py-12 xl:py-24 h-[84vh] xl:pt-28 bg-hero bg-no-repeat bg-bottom bg-cover dark:bg-none p-20">
       <div className="contanier mx-auto">
