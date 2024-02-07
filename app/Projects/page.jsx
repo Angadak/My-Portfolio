@@ -24,15 +24,17 @@ const projectData = [
     link: "https://www.dhillonfarm.com/",
     github: "/",
   },
-  // {
-  //   Image: "/work/2.png",
-  //   category: "Asp.net ",
-  //   name: "portfolio",
-  //   description:
-  //     "Lorem ipsum dolor sit amet consectetur adipisicing elit. Similiquecum necessitatibus ipsam tenetur natus. Totam voluptates beataelaudantium, quaerat quis cumque id delectus ad assumenda necessitatibus ullam ut quod placeat.",
-  //   link: "/",
-  //   github: "/",
-  // },
+  {
+    Image: "/work/TRIS-web_api.png",
+    category: "Web-API ",
+    name: "TRIS Web-API",
+    tech_stack:"ASP.NET CORE, ASP.NET CORE Web-API, Entity Framework,SQL Server ",
+
+    description:
+      "Introducing TRIS Web-API's, a robust solution built on ASP.NET Core Web-API and powered by Entity Framework. Leveraging the latest technologies, including ASP.NET Core and SQL Server, it offers seamless data management and integration. Designed to meet diverse needs, TRIS Web-API's ensures efficient communication and scalability for your application.",
+    link: "/",
+    github: "/",
+  },
   // {
   //   Image: "/work/1.png",
   //   category: "Asp.net core",

@@ -30,21 +30,23 @@ const projectData = [
     Image: "/work/tris-dashboard.png",
     category: "Asp.Net Core",
     name: "TRIS Dashboard",
-    tech_stack:"ASP.NET CORE, ASP.NET CORE MVC, JQuery, Bootstrap",
+    tech_stack:"ASP.NET CORE, ASP.NET CORE MVC, JQuery, Bootstrap ",
     description:
       "Driving TRIS Dashboard with Asp.net, C#, and Face Recognition for secure logins. Skilled in Asp.net Core MVC, Entity Framework, JavaScript/jQuery. Committed to innovative web development.",
     link: "https://www.dhillonfarm.com/",
     github: "/",
   },
-//   {
-//     Image: "/work/2.png",
-//     category: "Asp.net ",
-//     name: "portfolio",
-//     description:
-//       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Similiquecum necessitatibus ipsam tenetur natus. Totam voluptates beataelaudantium, quaerat quis cumque id delectus ad assumenda necessitatibus ullam ut quod placeat.",
-//     link: "/",
-//     github: "/",
-//   },
+  {
+    Image: "/work/TRIS-web_api.png",
+    category: "Web-API ",
+    name: "TRIS Web-API",
+    tech_stack:"ASP.NET CORE, ASP.NET CORE Web-API, Entity Framework,SQL Server ",
+
+    description:
+      "Meet TRIS Web-API's: A cutting-edge ASP.NET Core Web-API solution. Powered by Entity Framework and SQL Server, it offers seamless data management and integration",
+    link: "/",
+    github: "/",
+  },
 //   {
 //     Image: "/work/1.png",
 //     category: "Asp.net core",
