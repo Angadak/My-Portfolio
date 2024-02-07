@@ -10,7 +10,7 @@ import projects from "@/app/Projects/page";
 const ProjectCard = ({ project }) => {
   console.log(project);
   return (
-    <Card className='group overflow-hidden relative h-[520px]'> 
+    <Card className='group overflow-hidden relative h-[550px]'> 
       <CardHeader className="p-0">
         {/* image  */}
         <div className="relative w-full h-[250px] flex items-center justify-center bg-tertiary dark:bg-secondary/40 xl:bg-work_projrct_bg_light xl:dark:bg-work_projrct_bg_dark xl:bg-[110%] xl:bg-no-repeat overflow-hidden">
