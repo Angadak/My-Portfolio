@@ -95,7 +95,9 @@ export function Terminal({ ctx, onClose }: { ctx: SiteIndex; onClose: () => void
         role="dialog"
         aria-modal="true"
         aria-label="Terminal"
-        onClick={() => inputRef.current?.focus()}
+        onClick={() => {
+          if (window.getSelection()?.isCollapsed ?? true) inputRef.current?.focus();
+        }}
         onKeyDown={(event) => {
           if (event.key === 'Escape') {
             event.preventDefault();
