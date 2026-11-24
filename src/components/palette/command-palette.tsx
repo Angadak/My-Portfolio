@@ -9,7 +9,7 @@ import { copyText } from '@/lib/clipboard';
 
 const itemClass =
   'cursor-pointer rounded-lg px-3 py-2 text-sm text-fg data-[selected=true]:bg-accent data-[selected=true]:text-bg';
-const groupClass = '[&_[cmdk-group-heading]]:label [&_[cmdk-group-heading]]:px-3 [&_[cmdk-group-heading]]:py-2 [&_[cmdk-group-heading]]:text-muted';
+const groupClass = '[&_[cmdk-group-heading]]:font-mono [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-[0.1em] [&_[cmdk-group-heading]]:px-3 [&_[cmdk-group-heading]]:py-2 [&_[cmdk-group-heading]]:text-muted';
 
 export function CommandPalette({ index, onClose }: { index: SiteIndex; onClose: () => void }) {
   const router = useRouter();
