@@ -28,7 +28,7 @@ The site is done when:
 | Positioning | Full-Stack Engineer — .NET + TypeScript |
 | Proof | Written case studies (NDA-safe) + 2–3 open-source demo apps (separate sub-projects) |
 | Site stack | Fresh rebuild, latest stable Next.js App Router + TypeScript + Tailwind CSS v4 |
-| Content storage | In repo: MDX + typed data files, validated at build time (Velite) |
+| Content storage | In repo: MDX + typed data files, validated at build time (gray-matter + zod, rendered with `@mdx-js/mdx`) |
 | Hosting | Vercel; contact via server action + Resend |
 | Hero | Sanjoo-style: giant embossed skill word + original illustrated prop object, click to cycle |
 | Visual tone | Minimal, typographic, professional. Neutral surfaces + one violet accent |
@@ -158,7 +158,7 @@ All of it is optional: every page and fact is reachable through the normal menu 
 
 ### 5.6 Motion
 
-- Library: `motion`. Reuse and adapt (to TypeScript + these tokens) from the user's Manga UI Kit: `reveal`/`stagger`, `tilt-card`, `magnetic`, `nav-progress`, `toast`. Nothing else from that kit (no theme, fonts, textures).
+- No animation library. Small hand-written components inspired by the user's Manga UI Kit: `Reveal`, `TiltCard`, `Magnetic`, `NavProgress`, `Toaster`. Nothing else from that kit (no theme, fonts, textures).
 - Only `transform` and `opacity` animate. Above-the-fold content renders without waiting for JS (CSS keyframes, not JS `opacity: 0` entrances).
 - No `backdrop-filter` on sticky elements. No smooth-scroll hijacking.
 - `prefers-reduced-motion` disables all non-essential motion globally.
@@ -167,7 +167,7 @@ All of it is optional: every page and fact is reachable through the normal menu 
 
 ### 6.1 Stack
 
-Next.js (latest stable, App Router, React Server Components), TypeScript strict, Tailwind CSS v4, Velite (MDX + zod schemas), `motion`, `cmdk`, `react-hook-form` + `zod`, Resend, Shiki, Vercel Web Analytics. Package manager: npm.
+Next.js (latest stable, App Router, React Server Components), TypeScript strict, Tailwind CSS v4, `@mdx-js/mdx` + gray-matter + zod (content), `cmdk`, Resend, Shiki, Vercel Web Analytics. Package manager: npm.
 
 Rebuilt in the existing repo on a feature branch. Old code removed entirely; git history and the Vercel project are kept.
 
