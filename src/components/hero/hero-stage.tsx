@@ -117,7 +117,7 @@ export function HeroStage({ words, name, headline, availability, location, githu
       style={{ '--px': '0', '--py': '0' } as React.CSSProperties}
       className={`relative isolate h-[calc(100dvh-4rem)] min-h-[600px] select-none overflow-hidden focus-visible:outline-offset-[-4px] ${showCursor ? 'cursor-none' : ''}`}
     >
-      <div aria-hidden className="pointer-events-none absolute inset-0 grid place-items-center">
+      <div aria-hidden className="pointer-events-none absolute inset-0 grid items-start justify-items-center pt-[18dvh] sm:items-center sm:pt-0">
         <span
           data-decorative
           className="word-emboss text-[clamp(3.5rem,15vw,12rem)] font-black leading-none tracking-[-0.03em]"
@@ -127,7 +127,7 @@ export function HeroStage({ words, name, headline, availability, location, githu
         </span>
       </div>
 
-      <div className="pointer-events-none absolute inset-0 grid place-items-center">
+      <div className="pointer-events-none absolute inset-0 grid items-start justify-items-center pt-[18dvh] sm:items-center sm:pt-0">
         <div
           className="pointer-events-auto w-[clamp(120px,18vw,210px)]"
           style={{ transform: 'translate(calc(var(--px) * -44px), calc(var(--py) * -36px))' }}
