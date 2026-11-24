@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { OPEN_PALETTE, OPEN_TERMINAL } from '@/lib/events';
+import { PanelBoundary } from './panel-boundary';
 import type { SiteIndex } from '@/lib/site';
 
 const Terminal = dynamic(() => import('@/components/terminal/terminal').then((m) => m.Terminal), { ssr: false });
@@ -65,7 +66,19 @@ export function InteractiveLayer({ index }: { index: SiteIndex }) {
     };
   }, [panel]);
 
-  if (panel === 'terminal') return <Terminal ctx={index} onClose={close} />;
-  if (panel === 'palette') return <CommandPalette index={index} onClose={close} />;
+  if (panel === 'terminal') {
+    return (
+      <PanelBoundary key="terminal" onClose={close}>
+        <Terminal ctx={index} onClose={close} />
+      </PanelBoundary>
+    );
+  }
+  if (panel === 'palette') {
+    return (
+      <PanelBoundary key="palette" onClose={close}>
+        <CommandPalette index={index} onClose={close} />
+      </PanelBoundary>
+    );
+  }
   return null;
 }
