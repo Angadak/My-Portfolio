@@ -69,8 +69,47 @@ describe('HeroStage', () => {
     window.removeEventListener(OPEN_TERMINAL, listener);
   });
 
-  it('announces the current word politely', () => {
+  it('announces the current word only when paused or focused', () => {
     render(<HeroStage {...props} />);
-    expect(screen.getByText('BACKEND: C# · ASP.NET Core · EF Core · SQL Server')).toHaveAttribute('aria-live', 'polite');
+    const live = screen.getByText('BACKEND: C# · ASP.NET Core · EF Core · SQL Server');
+    expect(live).toHaveAttribute('aria-live', 'off');
+    fireEvent.focus(stage());
+    expect(live).toHaveAttribute('aria-live', 'polite');
+  });
+
+  it('keeps focus pause when the mouse leaves', () => {
+    setMedia('(pointer: fine)', true);
+    vi.useFakeTimers();
+    render(<HeroStage {...props} />);
+    fireEvent.focus(stage());
+    fireEvent.mouseEnter(stage());
+    fireEvent.mouseLeave(stage());
+    act(() => {
+      vi.advanceTimersByTime(4000);
+    });
+    expect(screen.getByText(/^01 \//)).toBeInTheDocument();
+  });
+
+  it('pauses auto-advance with the pause button', () => {
+    vi.useFakeTimers();
+    render(<HeroStage {...props} />);
+    const button = screen.getByRole('button', { name: 'Pause word animation' });
+    fireEvent.click(button);
+    expect(screen.getByRole('button', { name: 'Play word animation' })).toHaveAttribute('aria-pressed', 'true');
+    act(() => {
+      vi.advanceTimersByTime(9000);
+    });
+    expect(screen.getByText(/^01 \//)).toBeInTheDocument();
+  });
+
+  it('hides the pause button under reduced motion', () => {
+    setMedia('(prefers-reduced-motion: reduce)', true);
+    render(<HeroStage {...props} />);
+    expect(screen.queryByRole('button', { name: /word animation/i })).not.toBeInTheDocument();
+  });
+
+  it('renders nothing without words', () => {
+    const { container } = render(<HeroStage {...props} words={[]} />);
+    expect(container).toBeEmptyDOMElement();
   });
 });

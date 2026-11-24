@@ -23,35 +23,41 @@ export type HeroStageProps = {
 
 export function HeroStage({ words, name, headline, availability, location, github, linkedin, email }: HeroStageProps) {
   const [index, setIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const [userPaused, setUserPaused] = useState(false);
   const stageRef = useRef<HTMLElement>(null);
   const cursorRef = useRef<HTMLDivElement>(null);
   const reduced = useMediaQuery('(prefers-reduced-motion: reduce)');
   const finePointer = useMediaQuery('(pointer: fine)');
   const showCursor = finePointer && !reduced;
-  const current = words[index];
-  const number = String(index + 1).padStart(2, '0');
+  const paused = hovered || focused || userPaused;
+  const current = words[Math.min(index, words.length - 1)];
+  const number = String(Math.min(index, words.length - 1) + 1).padStart(2, '0');
 
   const step = useCallback((direction: 1 | -1) => setIndex((i) => cycle(i, words.length, direction)), [words.length]);
 
   useEffect(() => {
-    if (reduced || paused) return;
+    if (reduced || paused || words.length === 0) return;
     const id = window.setInterval(() => {
       if (document.visibilityState !== 'hidden') step(1);
     }, AUTO_ADVANCE_MS);
     return () => window.clearInterval(id);
-  }, [reduced, paused, step, index]);
+  }, [reduced, paused, step, index, words.length]);
+
+  if (!current) return null;
 
   function onMouseMove(event: React.MouseEvent<HTMLElement>) {
     const el = stageRef.current;
     if (!el) return;
     const r = el.getBoundingClientRect();
     if (r.width === 0 || r.height === 0) return;
-    if (!reduced) {
+    if (!reduced && finePointer) {
       el.style.setProperty('--px', ((event.clientX - r.left) / r.width - 0.5).toFixed(3));
       el.style.setProperty('--py', ((event.clientY - r.top) / r.height - 0.5).toFixed(3));
     }
     if (cursorRef.current) {
+      delete cursorRef.current.dataset.hidden;
       cursorRef.current.style.transform = `translate(${event.clientX - r.left}px, ${event.clientY - r.top}px)`;
     }
   }
@@ -83,13 +89,19 @@ export function HeroStage({ words, name, headline, availability, location, githu
       ref={stageRef}
       tabIndex={0}
       aria-roledescription="carousel"
-      aria-label="Skills showcase. Use the left and right arrow keys to change the word."
+      aria-label="Skills showcase"
+      aria-describedby="hero-hint"
       onMouseMove={onMouseMove}
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onFocus={() => setPaused(true)}
+      onMouseEnter={() => {
+        if (finePointer) setHovered(true);
+      }}
+      onMouseLeave={() => {
+        setHovered(false);
+        if (cursorRef.current) cursorRef.current.dataset.hidden = '';
+      }}
+      onFocus={() => setFocused(true)}
       onBlur={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setPaused(false);
+        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setFocused(false);
       }}
       onClick={onClick}
       onKeyDown={onKeyDown}
@@ -100,7 +112,7 @@ export function HeroStage({ words, name, headline, availability, location, githu
         <span
           data-decorative
           className="word-emboss text-[clamp(3.5rem,15vw,12rem)] font-black leading-none tracking-[-0.03em]"
-          style={{ transform: 'translate(calc(var(--px) * 12px), calc(var(--py) * 10px))' }}
+          style={{ transform: 'translate(calc(var(--px) * 24px), calc(var(--py) * 20px))' }}
         >
           {current.word}
         </span>
@@ -109,7 +121,7 @@ export function HeroStage({ words, name, headline, availability, location, githu
       <div className="pointer-events-none absolute inset-0 grid place-items-center">
         <div
           className="pointer-events-auto w-[clamp(120px,18vw,210px)]"
-          style={{ transform: 'translate(calc(var(--px) * -24px), calc(var(--py) * -18px))' }}
+          style={{ transform: 'translate(calc(var(--px) * -44px), calc(var(--py) * -36px))' }}
           onMouseEnter={() => setCursorBig(true)}
           onMouseLeave={() => setCursorBig(false)}
         >
@@ -125,7 +137,7 @@ export function HeroStage({ words, name, headline, availability, location, githu
         </div>
       </div>
 
-      <div className="absolute bottom-8 left-4 right-4 z-10 max-w-xl sm:left-8">
+      <div className="absolute bottom-8 left-4 right-4 z-10 max-w-xl pr-28 sm:left-8 sm:pr-0">
         <p className="label text-accent">
           {number} / {current.caption}
         </p>
@@ -154,10 +166,27 @@ export function HeroStage({ words, name, headline, availability, location, githu
         <p aria-hidden className="label hidden text-muted md:block">
           Click or ← → to change
         </p>
+        {!reduced && (
+          <button
+            type="button"
+            aria-pressed={userPaused}
+            aria-label={userPaused ? 'Play word animation' : 'Pause word animation'}
+            onClick={() => setUserPaused((p) => !p)}
+            className="grid size-9 place-items-center rounded-full border border-line text-fg transition-colors hover:bg-surface"
+          >
+            <svg aria-hidden viewBox="0 0 24 24" className="size-4" fill="currentColor">
+              {userPaused ? <path d="M8 5v14l11-7z" /> : <path d="M6 5h4v14H6zM14 5h4v14h-4z" />}
+            </svg>
+          </button>
+        )}
         <ThemeToggle />
       </div>
 
-      <p className="sr-only" aria-live="polite">
+      <p id="hero-hint" className="sr-only">
+        Use the left and right arrow keys to change the word.
+      </p>
+
+      <p className="sr-only" aria-live={paused || reduced ? 'polite' : 'off'}>
         {`${current.word}: ${current.caption}`}
       </p>
 
@@ -165,7 +194,8 @@ export function HeroStage({ words, name, headline, availability, location, githu
         <div
           ref={cursorRef}
           aria-hidden
-          className="pointer-events-none absolute left-0 top-0 z-20 -ml-3 -mt-3 size-6 rounded-full border-[1.5px] border-fg transition-[width,height,margin] duration-150 data-[big]:-ml-7 data-[big]:-mt-7 data-[big]:size-14"
+          data-hidden=""
+          className="pointer-events-none absolute left-0 top-0 z-20 data-[hidden]:opacity-0 -ml-3 -mt-3 size-6 rounded-full border-[1.5px] border-fg transition-[width,height,margin] duration-150 data-[big]:-ml-7 data-[big]:-mt-7 data-[big]:size-14"
           style={{ transform: 'translate(-100px, -100px)' }}
         />
       )}
