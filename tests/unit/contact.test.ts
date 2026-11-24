@@ -56,9 +56,11 @@ describe('handleContact', () => {
   });
 
   it('reports sender failures instead of failing silently', async () => {
+    const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
     const result = await handleContact(form(valid), vi.fn().mockRejectedValue(new Error('down')));
     expect(result.status).toBe('error');
     expect(result.message).toMatch(/couldn't be sent/);
+    spy.mockRestore();
   });
 });
 
