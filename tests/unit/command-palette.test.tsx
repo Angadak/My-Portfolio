@@ -46,6 +46,18 @@ describe('CommandPalette', () => {
     window.removeEventListener(OPEN_TERMINAL, listener);
   });
 
+  it('downloads the CV via an anchor instead of navigating', async () => {
+    const user = userEvent.setup();
+    const click = vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => {});
+    render(<CommandPalette index={index} onClose={vi.fn()} />);
+    await user.click(screen.getByRole('option', { name: /download cv/i }));
+    expect(click).toHaveBeenCalledTimes(1);
+    const link = click.mock.contexts[0] as HTMLAnchorElement;
+    expect(link.getAttribute('href')).toBe('/cv.pdf');
+    expect(link.hasAttribute('download')).toBe(true);
+    click.mockRestore();
+  });
+
   it('closes on Escape', async () => {
     const user = userEvent.setup();
     const onClose = vi.fn();

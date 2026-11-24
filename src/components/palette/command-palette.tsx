@@ -11,6 +11,13 @@ const itemClass =
   'cursor-pointer rounded-lg px-3 py-2 text-sm text-fg data-[selected=true]:bg-accent data-[selected=true]:text-bg';
 const groupClass = '[&_[cmdk-group-heading]]:font-mono [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-[0.1em] [&_[cmdk-group-heading]]:px-3 [&_[cmdk-group-heading]]:py-2 [&_[cmdk-group-heading]]:text-muted';
 
+function downloadFile(href: string) {
+  const link = document.createElement('a');
+  link.href = href;
+  link.download = '';
+  link.click();
+}
+
 export function CommandPalette({ index, onClose }: { index: SiteIndex; onClose: () => void }) {
   const router = useRouter();
 
@@ -104,7 +111,7 @@ export function CommandPalette({ index, onClose }: { index: SiteIndex; onClose: 
               >
                 Copy email
               </Command.Item>
-              <Command.Item value="Download CV" onSelect={() => run(() => window.location.assign(index.cvHref))} className={itemClass}>
+              <Command.Item value="Download CV" onSelect={() => run(() => downloadFile(index.cvHref))} className={itemClass}>
                 Download CV
               </Command.Item>
             </Command.Group>
