@@ -37,11 +37,11 @@ export function ProjectCard({ project }: { project: Project }) {
   );
 }
 
-export function ProjectsSection({ projects }: { projects: Project[] }) {
+export function ProjectsSection({ projects, index }: { projects: Project[]; index: string }) {
   if (projects.length === 0) return null;
   return (
     <section aria-labelledby="projects" className="mx-auto max-w-6xl px-4 py-24 sm:px-8">
-      <SectionHeading id="projects" index="02" label="Open-source demos" word="BUILDS" prop="api" />
+      <SectionHeading id="projects" index={index} label="Open-source demos" word="BUILDS" prop="api" />
       <div className="grid gap-6 md:grid-cols-2">
         {projects.map((project) => (
           <Reveal key={project.slug} className="h-full">

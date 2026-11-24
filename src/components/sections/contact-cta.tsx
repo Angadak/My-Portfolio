@@ -1,11 +1,11 @@
 import { ButtonLink } from '@/components/ui/button';
 import { Magnetic } from '@/components/motion/magnetic';
 
-export function ContactCta({ email }: { email: string }) {
+export function ContactCta({ email, index }: { email: string; index: string }) {
   return (
     <section aria-labelledby="contact-cta" className="border-t border-line">
       <div className="mx-auto max-w-6xl px-4 py-24 text-center sm:px-8">
-        <p className="label text-accent">06 / Contact</p>
+        <p className="label text-accent">{index} / Contact</p>
         <h2 id="contact-cta" className="word-heading mt-3 text-[clamp(3rem,10vw,7rem)] font-black leading-none tracking-[-0.03em]">
           HELLO
         </h2>

@@ -4,6 +4,7 @@ import { testimonials } from '@/data/testimonials';
 import { getCaseStudies, getPosts, getProjects } from '@/lib/content';
 import { formatYears, yearsOfExperience } from '@/lib/experience';
 import { heroWords } from '@/lib/hero';
+import { numberSections } from '@/lib/sections';
 import { jsonLd, personJsonLd } from '@/lib/seo';
 import { HeroStage } from '@/components/hero/hero-stage';
 import { FeaturedWork } from '@/components/sections/featured-work';
@@ -14,6 +15,17 @@ import { LatestPosts } from '@/components/sections/latest-posts';
 import { ContactCta } from '@/components/sections/contact-cta';
 
 export default function HomePage() {
+  const studies = getCaseStudies();
+  const projects = getProjects();
+  const posts = getPosts();
+  const n = numberSections({
+    work: studies.some((s) => s.featured),
+    projects: projects.length > 0,
+    experience: experience.length > 0,
+    testimonials: testimonials.length >= 2,
+    posts: posts.length > 0,
+    contact: true,
+  });
   const years = formatYears(yearsOfExperience(profile.careerStart));
   return (
     <>
@@ -28,12 +40,12 @@ export default function HomePage() {
         linkedin={profile.linkedin}
         email={profile.email}
       />
-      <FeaturedWork studies={getCaseStudies()} />
-      <ProjectsSection projects={getProjects()} />
-      <ExperienceSnapshot items={experience} />
-      <TestimonialsSection items={testimonials} />
-      <LatestPosts posts={getPosts()} />
-      <ContactCta email={profile.email} />
+      <FeaturedWork studies={studies} index={n.work} />
+      <ProjectsSection projects={projects} index={n.projects} />
+      <ExperienceSnapshot items={experience} index={n.experience} />
+      <TestimonialsSection items={testimonials} index={n.testimonials} />
+      <LatestPosts posts={posts} index={n.posts} />
+      <ContactCta email={profile.email} index={n.contact} />
     </>
   );
 }

@@ -4,11 +4,11 @@ import { SectionHeading } from '@/components/ui/section-heading';
 
 const dateFormat = new Intl.DateTimeFormat('en', { dateStyle: 'medium', timeZone: 'UTC' });
 
-export function LatestPosts({ posts }: { posts: Post[] }) {
+export function LatestPosts({ posts, index }: { posts: Post[]; index: string }) {
   if (posts.length === 0) return null;
   return (
     <section aria-labelledby="latest-posts" className="mx-auto max-w-6xl px-4 py-24 sm:px-8">
-      <SectionHeading id="latest-posts" index="05" label="Writing" word="NOTES" />
+      <SectionHeading id="latest-posts" index={index} label="Writing" word="NOTES" />
       <ul className="divide-y divide-line border-y border-line">
         {posts.slice(0, 3).map((post) => (
           <li key={post.slug} className="py-5">
