@@ -54,7 +54,7 @@ describe('InteractiveLayer', () => {
     expect(input).toHaveFocus();
     fireEvent.keyDown(window, { key: 'k', ctrlKey: true });
     await screen.findByRole('dialog', { name: 'Command palette' });
-    fireEvent.click(screen.getByRole('button', { name: 'Close' }));
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Escape' });
     await vi.waitFor(() => expect(button).toHaveFocus());
     expect(document.documentElement.style.overflow).toBe('');
   });
