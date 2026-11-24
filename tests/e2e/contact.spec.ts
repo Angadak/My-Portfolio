@@ -4,7 +4,7 @@ async function fill(page: Page, email: string) {
   await page.getByRole('textbox', { name: 'Name' }).fill('Test Recruiter');
   await page.getByRole('textbox', { name: 'Email' }).fill(email);
   await page.getByRole('textbox', { name: 'Message' }).fill('We would like to talk about a full-stack role.');
-  await page.waitForTimeout(3200);
+  await page.clock.fastForward(3500);
   await page.getByRole('button', { name: 'Send message' }).click();
 }
 
@@ -15,6 +15,7 @@ test('validates before sending', async ({ page }) => {
 });
 
 test('sends a message and clears the form', async ({ page }) => {
+  await page.clock.install();
   await page.goto('/contact');
   await fill(page, 'recruiter@example.com');
   await expect(page.getByText('Thanks, your message is on its way.')).toBeVisible();
@@ -22,6 +23,7 @@ test('sends a message and clears the form', async ({ page }) => {
 });
 
 test('shows an error with a mailto fallback when sending fails', async ({ page }) => {
+  await page.clock.install();
   await page.goto('/contact');
   await fill(page, 'recruiter@fail.test');
   const alert = page.getByRole('alert').filter({ hasText: "couldn't be sent" });
