@@ -50,7 +50,8 @@ export async function handleContact(form: FormData, send: Sender): Promise<Conta
   try {
     await send(result.data);
     return { status: 'success', message: SUCCESS_MESSAGE };
-  } catch {
+  } catch (err) {
+    console.error('[contact] send failed:', err instanceof Error ? err.message : 'unknown error');
     return { status: 'error', message: "Your message couldn't be sent." };
   }
 }

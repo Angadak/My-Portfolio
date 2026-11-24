@@ -1,6 +1,10 @@
 import { Resend } from 'resend';
 import type { Sender } from './contact';
 
+export function emailSubject(name: string): string {
+  return `Portfolio message from ${name.replace(/[\r\n\t]+/g, ' ')}`;
+}
+
 type Env = Record<string, string | undefined>;
 
 export function getSender(env: Env = process.env): Sender {
@@ -22,10 +26,10 @@ export function getSender(env: Env = process.env): Sender {
   const resend = new Resend(apiKey);
   return async (message) => {
     const { error } = await resend.emails.send({
-      from: env.CONTACT_FROM_EMAIL ?? 'Portfolio <onboarding@resend.dev>',
+      from: env.CONTACT_FROM_EMAIL || 'Portfolio <onboarding@resend.dev>',
       to,
       replyTo: message.email,
-      subject: `Portfolio message from ${message.name}`,
+      subject: emailSubject(message.name),
       text: `${message.message}\n\n— ${message.name} <${message.email}>`,
     });
     if (error) throw new Error(error.message);

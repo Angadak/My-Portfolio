@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { handleContact, MIN_FILL_MS, SUCCESS_MESSAGE, validateContact } from '@/lib/contact';
-import { getSender } from '@/lib/senders';
+import { emailSubject, getSender } from '@/lib/senders';
 
 function form(values: Record<string, string>): FormData {
   const data = new FormData();
@@ -59,6 +59,22 @@ describe('handleContact', () => {
     const result = await handleContact(form(valid), vi.fn().mockRejectedValue(new Error('down')));
     expect(result.status).toBe('error');
     expect(result.message).toMatch(/couldn't be sent/);
+  });
+});
+
+describe('send failure logging', () => {
+  it('logs only the error message, never the user input', async () => {
+    const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    await handleContact(form(valid), vi.fn().mockRejectedValue(new Error('resend down')));
+    expect(spy).toHaveBeenCalledWith('[contact] send failed:', 'resend down');
+    expect(JSON.stringify(spy.mock.calls)).not.toContain(valid.message);
+    spy.mockRestore();
+  });
+});
+
+describe('emailSubject', () => {
+  it('strips control characters from the name', () => {
+    expect(emailSubject('Sam\r\nBcc: x@y.z\tLee')).toBe('Portfolio message from Sam Bcc: x@y.z Lee');
   });
 });
 
