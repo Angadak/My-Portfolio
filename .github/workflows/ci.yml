@@ -32,4 +32,6 @@ jobs:
           name: reports
           path: |
             playwright-report
+            test-results
             .lighthouseci
+          if-no-files-found: ignore
