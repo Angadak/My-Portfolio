@@ -1,0 +1,46 @@
+---
+title: Practice manager for accounting firms
+client: "[fill-in: client name, or 'Australian accounting firm' if it can't be named]"
+domain: Practice management
+role: Software Engineer (full-stack)
+teamSize: "[fill-in: team size]"
+period: Apr 2026 – Present
+stack: [Svelte 5, TypeScript, ASP.NET Core Web API, C#, "[fill-in: database and hosting]"]
+summary: A custom practice-management platform in the spirit of Xero Practice Manager, combining a client document-request portal, job and task workflow, and email linked to clients and jobs.
+metrics:
+  - { value: "[fill-in]", label: active clients }
+  - { value: "[fill-in]", label: jobs tracked per month }
+  - { value: "[fill-in]", label: hours saved per week }
+featured: true
+order: 1
+---
+
+## Problem
+
+Accounting firms chase clients for documents over email, track jobs in spreadsheets, and lose context because conversations live in personal inboxes. Off-the-shelf tools each solve one piece: one for collecting client information, another for workflow, another for practice admin. The firm wanted one system shaped around how it actually works.
+
+## What I built
+
+- **Client portal and document requests.** Staff send structured requests (checklists, file uploads, questions) and clients complete them in a portal with reminders until everything arrives.
+- **Jobs and tasks.** Jobs move through configurable stages; tasks have owners, due dates and statuses so managers can see workload at a glance.
+- **Email linked to work.** Client emails are threaded and attached to the right client and job, so anyone on the team can pick up the conversation.
+
+[fill-in: your exact part — which of these you built end to end, which you contributed to]
+
+## Architecture
+
+[fill-in: short description for the architecture diagram — Svelte front end, .NET API, database, file storage, email provider, background jobs]
+
+## Hard problems
+
+### 1. Request status that clients and staff both trust
+
+[fill-in: how request and item states are modelled, and how reminders avoid spamming clients]
+
+### 2. Linking email to the right client and job
+
+[fill-in: matching rules, edge cases such as shared addresses or forwarded threads]
+
+### 3. Permissions across staff roles and client contacts
+
+[fill-in: how access is checked in the API and reflected in the UI]
