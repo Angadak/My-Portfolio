@@ -9,7 +9,7 @@ export const profile = guardFillIns(
     availability: 'Open to remote roles worldwide',
     email: 'angad.ak70@gmail.com',
     github: 'https://github.com/Angadak',
-    linkedin: 'https://www.linkedin.com/in/angad-kumar',
+    linkedin: 'https://www.linkedin.com/in/angad-kumar-22173a175/',
     careerStart: '2022-04',
   }),
   'src/data/profile.ts',
