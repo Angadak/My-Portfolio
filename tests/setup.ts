@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom/vitest';
 import { createElement } from 'react';
+import { Blob as NodeBlob } from 'node:buffer';
 import { afterEach, vi } from 'vitest';
 import { cleanup } from '@testing-library/react';
 import { installMatchMedia, MockIntersectionObserver, resetMedia } from './helpers/media';
@@ -10,6 +11,8 @@ vi.mock('next/link', () => ({
     createElement('a', { href, ...rest }, children),
 }));
 
+// jsdom's Blob lacks .stream(), which shiki's inlined wasm loader needs.
+vi.stubGlobal('Blob', NodeBlob);
 installMatchMedia();
 vi.stubGlobal('IntersectionObserver', MockIntersectionObserver);
 vi.stubGlobal(
