@@ -35,7 +35,9 @@ export function loadCollection<S extends z.ZodType>(dir: string, schema: S): Ent
 }
 
 export function getCaseStudies(dir = path.join(CONTENT_DIR, 'case-studies')): CaseStudy[] {
-  return loadCollection(dir, caseStudySchema).sort((a, b) => a.order - b.order);
+  return loadCollection(dir, caseStudySchema).sort(
+    (a, b) => a.order - b.order || a.slug.localeCompare(b.slug),
+  );
 }
 
 export function getCaseStudy(slug: string): CaseStudy | undefined {
@@ -46,7 +48,9 @@ export function getProjects(
   dir = path.join(CONTENT_DIR, 'projects'),
   { liveOnly = true }: { liveOnly?: boolean } = {},
 ): Project[] {
-  const all = loadCollection(dir, projectSchema).sort((a, b) => a.order - b.order);
+  const all = loadCollection(dir, projectSchema).sort(
+    (a, b) => a.order - b.order || a.slug.localeCompare(b.slug),
+  );
   return liveOnly ? all.filter((p) => p.status === 'live') : all;
 }
 
@@ -60,7 +64,7 @@ export function getPosts(
 ): Post[] {
   return loadCollection(dir, postSchema)
     .filter((p) => includeDrafts || !p.draft)
-    .sort((a, b) => b.date.getTime() - a.date.getTime());
+    .sort((a, b) => b.date.getTime() - a.date.getTime() || a.slug.localeCompare(b.slug));
 }
 
 export function getPost(slug: string): Post | undefined {

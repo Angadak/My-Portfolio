@@ -1,6 +1,8 @@
 import { z } from 'zod';
 
 const text = z.string().trim().min(1);
+/** YAML parses bare numbers as numbers; accept them as text without turning missing values into "undefined". */
+const textish = z.preprocess((v) => (typeof v === 'number' ? String(v) : v), text);
 const month = z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/, 'Use YYYY-MM');
 
 export const metricSchema = z.object({ value: text, label: text });
@@ -10,8 +12,8 @@ export const caseStudySchema = z.object({
   client: text,
   domain: text,
   role: text,
-  teamSize: text,
-  period: text,
+  teamSize: textish,
+  period: textish,
   stack: z.array(text).min(1),
   summary: text,
   metrics: z.array(metricSchema).default([]),
