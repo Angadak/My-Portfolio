@@ -5,11 +5,11 @@ export const profile = guardFillIns(
   profileSchema.parse({
     name: 'Angad Kumar',
     headline: 'Full-stack engineer (.NET + TypeScript)',
-    location: '[fill-in: location line, e.g. India · open to remote worldwide]',
+    location: 'New Delhi, India',
     availability: 'Open to remote roles worldwide',
     email: 'angad.ak70@gmail.com',
     github: 'https://github.com/Angadak',
-    linkedin: '[fill-in: correct LinkedIn profile URL]',
+    linkedin: 'https://www.linkedin.com/in/angad-kumar',
     careerStart: '2022-04',
   }),
   'src/data/profile.ts',

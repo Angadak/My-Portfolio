@@ -13,6 +13,12 @@ describe('SummaryBar', () => {
     expect(screen.getByText('5')).toBeInTheDocument();
     expect(screen.getByText('Svelte 5')).toBeInTheDocument();
   });
+
+  it('leaves out the team row when team size is unknown', () => {
+    render(<SummaryBar client="Acme" role="Engineer" period="2025 – 2026" stack={['C#']} />);
+    expect(screen.queryByText('Team')).not.toBeInTheDocument();
+    expect(screen.getByText('Period')).toBeInTheDocument();
+  });
 });
 
 describe('Results', () => {

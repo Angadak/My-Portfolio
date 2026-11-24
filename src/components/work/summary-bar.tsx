@@ -1,14 +1,15 @@
 import { Chip } from '@/components/ui/chip';
 
-type Props = { client: string; role: string; teamSize: string; period: string; stack: string[] };
+type Props = { client: string; role: string; teamSize?: string; period: string; stack: string[] };
 
 export function SummaryBar({ client, role, teamSize, period, stack }: Props) {
-  const rows: [string, string][] = [
+  const all: [string, string | undefined][] = [
     ['Client', client],
     ['Role', role],
     ['Team', teamSize],
     ['Period', period],
   ];
+  const rows = all.filter((row): row is [string, string] => Boolean(row[1]));
   return (
     <dl className="mt-10 grid gap-6 rounded-xl border border-line bg-surface p-6 sm:grid-cols-2">
       {rows.map(([label, value]) => (

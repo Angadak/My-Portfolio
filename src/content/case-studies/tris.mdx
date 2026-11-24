@@ -1,19 +1,16 @@
 ---
 title: TRIS — train operations APIs and dashboard
-client: "[fill-in: how to name the IRCTC / government client publicly]"
+client: Government rail client (India)
 domain: Government · Rail
 role: Software Developer
-teamSize: "[fill-in: team size]"
 period: Aug 2023 – May 2024
 stack: [ASP.NET Core, Web API, ASP.NET Core MVC, C#, Entity Framework, MySQL, jQuery, Swagger]
 summary: RESTful APIs for train tracking and user management, plus a modular dashboard with face-recognition login and customisable reports.
-metrics:
-  - { value: "[fill-in]", label: API endpoints }
-  - { value: "[fill-in]", label: daily users }
-  - { value: "[fill-in]", label: response time after tuning }
 featured: true
 order: 3
 ---
+
+{/* Later: add team size, real numbers (API endpoints, daily users, response time) as metrics, and how face matching and fallback login work. */}
 
 ## Problem
 
@@ -27,18 +24,10 @@ Operations staff needed reliable, secure access to train tracking data and repor
 
 ## Architecture
 
-[fill-in: API, dashboard, database, face-recognition service and how they connect]
+ASP.NET Core Web APIs, documented with Swagger, sit over a MySQL database through Entity Framework. The MVC dashboard uses those APIs for tracking data and reports, and face recognition is part of the sign-in flow.
 
 ## Hard problems
 
-### 1. Face-recognition login that staff actually use
+### Face-recognition login that staff actually use
 
-[fill-in: enrolment, matching threshold, fallback login]
-
-### 2. Performance tuning the APIs
-
-[fill-in: queries or caching changed, before/after numbers]
-
-### 3. [fill-in: third challenge]
-
-[fill-in: details]
+Shared terminals make passwords a weak point, but sign-in still has to be quick at the start of a shift. Face recognition had to fit into the existing login flow without slowing staff down.

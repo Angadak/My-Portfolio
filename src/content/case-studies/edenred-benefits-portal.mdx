@@ -1,19 +1,16 @@
 ---
 title: Employee benefits admin portal
-client: "[fill-in: confirm 'Edenred' can be named publicly]"
+client: Global employee-benefits provider
 domain: Employee benefits
 role: Software Engineer
-teamSize: "[fill-in: team size]"
 period: Dec 2024 – Mar 2026
 stack: [Blazor, .NET Core, C#, Entity Framework, SQL Server, Azure, GitHub Actions]
 summary: A secure admin portal for managing employee benefit schemes, used by large global clients to run benefit operations.
-metrics:
-  - { value: "[fill-in]", label: client companies }
-  - { value: "[fill-in]", label: employees covered }
-  - { value: "[fill-in]", label: deploy time after CI/CD }
 featured: true
 order: 2
 ---
+
+{/* Later: add team size, the features you owned, and real numbers (client companies, employees covered, deploy time) as metrics. */}
 
 ## Problem
 
@@ -22,23 +19,11 @@ Benefit administrators at large companies needed one place to configure schemes,
 ## What I built
 
 - Admin screens in Blazor backed by .NET Core services and Entity Framework.
+- API integrations between the portal and the services behind it.
 - CI/CD pipelines and Azure deployments so releases became routine.
-- [fill-in: the features you owned, e.g. scheme configuration, eligibility rules, audit history]
-
-## Architecture
-
-[fill-in: Blazor app, API layer, SQL Server, Azure services used]
 
 ## Hard problems
 
-### 1. [fill-in: first challenge]
+### Safe releases for a portal clients rely on daily
 
-[fill-in: what made it hard and how you solved it]
-
-### 2. Safe releases for a portal clients rely on daily
-
-[fill-in: pipeline stages, environments, rollback approach]
-
-### 3. [fill-in: third challenge]
-
-[fill-in: details]
+Administrators at large client companies use the portal for day-to-day work, so a broken release is noticed straight away. Automated pipelines and Azure deployments meant every release went through the same build and deploy steps instead of a manual publish.

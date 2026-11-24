@@ -46,3 +46,7 @@ next-env.d.ts
 /.lighthouseci
 # keep the env template
 !.env.example
+
+# local tooling and planning notes (keep out of the repo)
+/.claude/
+/docs/superpowers/

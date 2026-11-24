@@ -23,10 +23,13 @@ describe('caseStudySchema numeric text', () => {
     }
   });
 
-  it('still rejects a missing teamSize', () => {
-    const rest: Partial<typeof study> = { ...study };
-    delete rest.teamSize;
-    expect(caseStudySchema.safeParse(rest).success).toBe(false);
+  it('allows a missing teamSize but still rejects a missing period', () => {
+    const noTeam: Partial<typeof study> = { ...study };
+    delete noTeam.teamSize;
+    expect(caseStudySchema.safeParse(noTeam).success).toBe(true);
+    const noPeriod: Partial<typeof study> = { ...study };
+    delete noPeriod.period;
+    expect(caseStudySchema.safeParse(noPeriod).success).toBe(false);
   });
 });
 

@@ -12,7 +12,7 @@ export const caseStudySchema = z.object({
   client: text,
   domain: text,
   role: text,
-  teamSize: textish,
+  teamSize: textish.optional(),
   period: textish,
   stack: z.array(text).min(1),
   summary: text,

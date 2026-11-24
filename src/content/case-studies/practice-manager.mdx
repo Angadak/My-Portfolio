@@ -1,19 +1,16 @@
 ---
 title: Practice manager for accounting firms
-client: "[fill-in: client name, or 'Australian accounting firm' if it can't be named]"
+client: Australian accounting firm
 domain: Practice management
 role: Software Engineer (full-stack)
-teamSize: "[fill-in: team size]"
 period: Apr 2026 – Present
-stack: [Svelte 5, TypeScript, ASP.NET Core Web API, C#, "[fill-in: database and hosting]"]
+stack: [Svelte 5, TypeScript, ASP.NET Core Web API, C#]
 summary: A custom practice-management platform in the spirit of Xero Practice Manager, combining a client document-request portal, job and task workflow, and email linked to clients and jobs.
-metrics:
-  - { value: "[fill-in]", label: active clients }
-  - { value: "[fill-in]", label: jobs tracked per month }
-  - { value: "[fill-in]", label: hours saved per week }
 featured: true
 order: 1
 ---
+
+{/* Later: add team size, database/hosting to the stack, and real numbers (active clients, jobs per month, hours saved) as metrics. */}
 
 ## Problem
 
@@ -25,22 +22,20 @@ Accounting firms chase clients for documents over email, track jobs in spreadshe
 - **Jobs and tasks.** Jobs move through configurable stages; tasks have owners, due dates and statuses so managers can see workload at a glance.
 - **Email linked to work.** Client emails are threaded and attached to the right client and job, so anyone on the team can pick up the conversation.
 
-[fill-in: your exact part — which of these you built end to end, which you contributed to]
-
 ## Architecture
 
-[fill-in: short description for the architecture diagram — Svelte front end, .NET API, database, file storage, email provider, background jobs]
+A Svelte 5 and TypeScript front end for staff and clients, backed by ASP.NET Core Web APIs in C#. The portal, workflow and email features share one data model, so a request, a job and the emails about it all point at the same client.
 
 ## Hard problems
 
 ### 1. Request status that clients and staff both trust
 
-[fill-in: how request and item states are modelled, and how reminders avoid spamming clients]
+A request holds many items, and each one is answered, uploaded or sent back on its own. The overall status has to roll up from those items so staff see exactly what is outstanding and clients see exactly what is left for them.
 
 ### 2. Linking email to the right client and job
 
-[fill-in: matching rules, edge cases such as shared addresses or forwarded threads]
+Email only helps if it lands in the right place. Messages have to be matched to a client and a job without staff filing them by hand.
 
 ### 3. Permissions across staff roles and client contacts
 
-[fill-in: how access is checked in the API and reflected in the UI]
+Staff and client contacts use the same system but must see different things. Access is checked in the API, and the UI only offers what the signed-in person is allowed to do.
