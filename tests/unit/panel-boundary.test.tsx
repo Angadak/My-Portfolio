@@ -21,7 +21,7 @@ describe('PanelBoundary', () => {
     );
     window.removeEventListener(TOAST, listener);
     expect(onClose).toHaveBeenCalledTimes(1);
-    expect(seen).toEqual([{ message: "Couldn't open that. Try again.", tone: 'error' }]);
+    expect(seen).toEqual([{ message: "Couldn't open that. Reload the page and try again.", tone: 'error' }]);
     expect(container).toBeEmptyDOMElement();
     vi.restoreAllMocks();
   });
