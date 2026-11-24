@@ -24,7 +24,8 @@ describe('caseStudySchema numeric text', () => {
   });
 
   it('still rejects a missing teamSize', () => {
-    const { teamSize: _omit, ...rest } = study;
+    const rest: Partial<typeof study> = { ...study };
+    delete rest.teamSize;
     expect(caseStudySchema.safeParse(rest).success).toBe(false);
   });
 });
