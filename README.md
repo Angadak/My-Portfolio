@@ -21,7 +21,7 @@ npm run dev
 | `npm test` | Unit and component tests (Vitest) |
 | `npm run test:e2e` | End-to-end + accessibility tests (Playwright, builds first) |
 | `npm run lint` / `npm run typecheck` | ESLint / TypeScript |
-| `npm run lhci` | Lighthouse budget against a running production build |
+| `npm run lhci` | Lighthouse budget; run `npm run build` first (it starts its own server) |
 
 ## Editing content
 
@@ -37,6 +37,15 @@ npm run dev
 - The terminal and command palette are lazy-loaded and talk to the rest of the page through window events (`src/lib/events.ts`).
 - The contact form validates on the client, then a server action re-validates, checks a honeypot and minimum fill time, and sends through Resend. Failures show an error with a `mailto:` fallback.
 - Theme follows the system setting until the visitor picks one; an inline head script applies the choice before first paint.
+
+## Launch checklist
+
+- Replace every `[fill-in]`. Run `CONTENT_STRICT=1 npm run build` to list them; Vercel production builds enforce this.
+- Replace `public/cv.pdf` with the updated CV: fix "AEPartnres", add TypeScript/Svelte, remove Finetica, and decide whether to include a phone number.
+- Set `RESEND_API_KEY` and `CONTACT_TO_EMAIL` in Vercel. Verify a sending domain and set `CONTACT_FROM_EMAIL` (the default `onboarding@resend.dev` only delivers to the Resend account owner).
+- In Vercel: use Node.js 20.9+ (22 recommended), enable Web Analytics, and keep deployment protection on previews (they show `[fill-in]` text).
+- Set `NEXT_PUBLIC_SITE_URL` when a custom domain is added.
+- Optional before launch: architecture diagrams for case studies (spec section 4.3). They are not built yet; the `## Architecture` sections are text.
 
 ## Quality gates (CI)
 
