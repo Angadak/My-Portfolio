@@ -17,15 +17,20 @@ function isTyping(target: EventTarget | null): boolean {
 export function InteractiveLayer({ index }: { index: SiteIndex }) {
   const [panel, setPanel] = useState<Panel>(null);
   const lastFocus = useRef<HTMLElement | null>(null);
+  const panelRef = useRef<Panel>(null);
 
   const show = useCallback((next: Exclude<Panel, null>) => {
-    if (document.activeElement instanceof HTMLElement) lastFocus.current = document.activeElement;
+    if (panelRef.current === null && document.activeElement instanceof HTMLElement) lastFocus.current = document.activeElement;
+    panelRef.current = next;
     setPanel(next);
   }, []);
 
   const close = useCallback(() => {
+    panelRef.current = null;
     setPanel(null);
-    window.requestAnimationFrame(() => lastFocus.current?.focus());
+    window.requestAnimationFrame(() => {
+      if (lastFocus.current?.isConnected) lastFocus.current.focus();
+    });
   }, []);
 
   useEffect(() => {
@@ -49,6 +54,16 @@ export function InteractiveLayer({ index }: { index: SiteIndex }) {
       window.removeEventListener('keydown', onKeyDown);
     };
   }, [show]);
+
+  useEffect(() => {
+    if (panel === null) return;
+    const root = document.documentElement;
+    const previous = root.style.overflow;
+    root.style.overflow = 'hidden';
+    return () => {
+      root.style.overflow = previous;
+    };
+  }, [panel]);
 
   if (panel === 'terminal') return <Terminal ctx={index} onClose={close} />;
   if (panel === 'palette') return <CommandPalette index={index} onClose={close} />;

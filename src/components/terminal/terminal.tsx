@@ -52,7 +52,7 @@ export function Terminal({ ctx, onClose }: { ctx: SiteIndex; onClose: () => void
     }
   }
 
-  function onKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
+  function onKeyDown(event: React.KeyboardEvent<HTMLElement>) {
     if (event.key === 'Enter') {
       event.preventDefault();
       submit();
@@ -95,6 +95,13 @@ export function Terminal({ ctx, onClose }: { ctx: SiteIndex; onClose: () => void
         role="dialog"
         aria-modal="true"
         aria-label="Terminal"
+        onClick={() => inputRef.current?.focus()}
+        onKeyDown={(event) => {
+          if (event.key === 'Escape') {
+            event.preventDefault();
+            onClose();
+          }
+        }}
         className="w-full max-w-2xl overflow-hidden rounded-xl border border-white/10 bg-[#0f0f14] font-mono text-sm text-[#e9e6ef] shadow-2xl"
       >
         <div className="flex items-center justify-between border-b border-white/10 px-4 py-2">
@@ -124,12 +131,15 @@ export function Terminal({ ctx, onClose }: { ctx: SiteIndex; onClose: () => void
             ref={inputRef}
             value={value}
             onChange={(event) => setValue(event.target.value)}
-            onKeyDown={onKeyDown}
+            onKeyDown={(event) => {
+              if (event.key === 'Escape') return;
+              onKeyDown(event);
+            }}
             aria-label="Terminal command"
             autoComplete="off"
             autoCapitalize="off"
             spellCheck={false}
-            className="flex-1 bg-transparent text-[#e9e6ef] outline-none"
+            className="flex-1 bg-transparent text-base text-[#e9e6ef] sm:text-sm outline-none"
           />
         </label>
       </div>

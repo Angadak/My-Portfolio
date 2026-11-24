@@ -40,6 +40,25 @@ describe('InteractiveLayer', () => {
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
+  it('restores focus to the original element after panel swap and close', async () => {
+    render(
+      <>
+        <button>origin</button>
+        <InteractiveLayer index={index} />
+      </>,
+    );
+    const button = screen.getByRole('button', { name: 'origin' });
+    button.focus();
+    act(() => openTerminal());
+    const input = await screen.findByRole('textbox', { name: 'Terminal command' });
+    expect(input).toHaveFocus();
+    fireEvent.keyDown(window, { key: 'k', ctrlKey: true });
+    await screen.findByRole('dialog', { name: 'Command palette' });
+    fireEvent.click(screen.getByRole('button', { name: 'Close' }));
+    await vi.waitFor(() => expect(button).toHaveFocus());
+    expect(document.documentElement.style.overflow).toBe('');
+  });
+
   it('opens the palette with Ctrl+K and the terminal from events', async () => {
     render(<InteractiveLayer index={index} />);
     fireEvent.keyDown(window, { key: 'k', ctrlKey: true });

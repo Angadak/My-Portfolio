@@ -7,10 +7,15 @@ import { usePathname } from 'next/navigation';
 export function NavProgress() {
   const pathname = usePathname();
   const [from, setFrom] = useState<string | null>(null);
+  const [seen, setSeen] = useState(pathname);
+  if (seen !== pathname) {
+    setSeen(pathname);
+    setFrom(null);
+  }
 
   useEffect(() => {
     function onClick(event: MouseEvent) {
-      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
       const link = (event.target as HTMLElement).closest('a');
       if (!link || link.target === '_blank' || link.hasAttribute('download')) return;
       const url = new URL(link.href, window.location.href);
@@ -21,15 +26,15 @@ export function NavProgress() {
     function onPopState() {
       setFrom(null);
     }
-    document.addEventListener('click', onClick);
+    document.addEventListener('click', onClick, true);
     window.addEventListener('popstate', onPopState);
     return () => {
-      document.removeEventListener('click', onClick);
+      document.removeEventListener('click', onClick, true);
       window.removeEventListener('popstate', onPopState);
     };
   }, []);
 
-  if (from === null || from !== pathname) return null;
+  if (from === null) return null;
   return (
     <div
       aria-hidden
