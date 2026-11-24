@@ -100,6 +100,7 @@ Defined as CSS custom properties on `:root`, overridden under `[data-theme="dark
 | `--line` | `#dcdcd8` | `#24242b` | Borders, dividers |
 | `--accent` | `#6d28d9` | `#a78bfa` | Links, CTA, focus, selection, prop highlights |
 | `--success` | `#15803d` | `#3fb950` | "Open to work" status, terminal OK output |
+| `--danger` | `#b91c1c` | `#f87171` | Form errors, error toasts |
 | `--word` | `#ffffff` | `#17171c` | Hero word fill |
 | `--word-edge` | `#dcdcd8` | `#24242b` | Hero word emboss layers |
 
