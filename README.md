@@ -40,7 +40,7 @@ npm run dev
 
 ## Launch checklist
 
-- Replace every `[fill-in]`. Run `CONTENT_STRICT=1 npm run build` to list them; Vercel production builds enforce this.
+- Replace every `[fill-in]`. Find them with `grep -rn "\[fill-in" src/` (a strict build, `CONTENT_STRICT=1 npm run build`, stops at the first file that still has one). Vercel production builds enforce this.
 - Replace `public/cv.pdf` with the updated CV: fix "AEPartnres", add TypeScript/Svelte, remove Finetica, and decide whether to include a phone number.
 - Set `RESEND_API_KEY` and `CONTACT_TO_EMAIL` in Vercel. Verify a sending domain and set `CONTACT_FROM_EMAIL` (the default `onboarding@resend.dev` only delivers to the Resend account owner).
 - In Vercel: use Node.js 20.9+ (22 recommended), enable Web Analytics, and keep deployment protection on previews (they show `[fill-in]` text).

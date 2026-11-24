@@ -14,7 +14,7 @@ export class PanelBoundary extends Component<Props, { failed: boolean }> {
   }
 
   componentDidCatch() {
-    toast("Couldn't open that. Try again.", 'error');
+    toast("Couldn't open that. Reload the page and try again.", 'error');
     this.props.onClose();
   }
 
