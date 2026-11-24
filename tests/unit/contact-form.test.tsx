@@ -18,6 +18,26 @@ describe('ContactForm', () => {
     expect(sendContact).not.toHaveBeenCalled();
   });
 
+  it('moves focus to the first invalid field', async () => {
+    const user = userEvent.setup();
+    render(<ContactForm email="a@b.co" />);
+    await user.click(screen.getByRole('button', { name: 'Send message' }));
+    await waitFor(() => expect(screen.getByRole('textbox', { name: 'Name' })).toHaveFocus());
+  });
+
+  it('shows a mailto fallback when the server action rejects', async () => {
+    sendContact.mockRejectedValue(new Error('500'));
+    const user = userEvent.setup();
+    render(<ContactForm email="a@b.co" />);
+    await user.type(screen.getByRole('textbox', { name: 'Name' }), 'Sam Lee');
+    await user.type(screen.getByRole('textbox', { name: 'Email' }), 'sam@example.com');
+    await user.type(screen.getByRole('textbox', { name: 'Message' }), 'We would like to talk about a role.');
+    await user.click(screen.getByRole('button', { name: 'Send message' }));
+    const alert = await screen.findByRole('alert');
+    expect(alert).toHaveTextContent("couldn't be sent");
+    expect(alert.querySelector('a[href="mailto:a@b.co"]')).not.toBeNull();
+  });
+
   it('sends, toasts and resets on success', async () => {
     sendContact.mockResolvedValue({ status: 'success', message: 'Thanks, your message is on its way.' });
     const toastListener = vi.fn();

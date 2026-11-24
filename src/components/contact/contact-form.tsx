@@ -10,10 +10,15 @@ export function ContactForm({ email }: { email: string }) {
   const [state, setState] = useState<ContactState>({ status: 'idle' });
   const [pending, startTransition] = useTransition();
   const mountedAt = useRef(0);
+  const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
     mountedAt.current = Date.now();
   }, []);
+
+  useEffect(() => {
+    if (state.fieldErrors) formRef.current?.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus();
+  }, [state.fieldErrors]);
 
   function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -30,7 +35,12 @@ export function ContactForm({ email }: { email: string }) {
     }
     data.set('elapsedMs', String(Date.now() - mountedAt.current));
     startTransition(async () => {
-      const result = await sendContact(data);
+      let result: ContactState;
+      try {
+        result = await sendContact(data);
+      } catch {
+        result = { status: 'error', message: "Your message couldn't be sent." };
+      }
       setState(result);
       if (result.status === 'success') {
         form.reset();
@@ -43,7 +53,7 @@ export function ContactForm({ email }: { email: string }) {
   const errors: FieldErrors = state.fieldErrors ?? {};
 
   return (
-    <form onSubmit={onSubmit} noValidate className="relative grid gap-5">
+    <form ref={formRef} method="post" onSubmit={onSubmit} noValidate className="relative grid gap-5">
       <div aria-hidden="true" className="absolute -left-[9999px] size-px overflow-hidden">
         <label>
           Company
