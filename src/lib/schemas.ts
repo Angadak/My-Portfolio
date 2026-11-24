@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 const text = z.string().trim().min(1);
-const month = z.string().regex(/^\d{4}-\d{2}$/, 'Use YYYY-MM');
+const month = z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/, 'Use YYYY-MM');
 
 export const metricSchema = z.object({ value: text, label: text });
 
