@@ -29,6 +29,19 @@ describe('loadCollection', () => {
   });
 });
 
+describe('getPosts strict mode', () => {
+  it('does not guard draft posts', () => {
+    vi.stubEnv('CONTENT_STRICT', '1');
+    const posts = getPosts(path.join(fixtures, 'blog-strict', 'draft-only'), { includeDrafts: true });
+    expect(posts).toHaveLength(1);
+  });
+
+  it('still guards published posts', () => {
+    vi.stubEnv('CONTENT_STRICT', '1');
+    expect(() => getPosts(path.join(fixtures, 'blog-strict', 'published'), { includeDrafts: true })).toThrow(/Unfinished content/);
+  });
+});
+
 describe('getCaseStudies', () => {
   it('sorts by order and adds slug + body', () => {
     const studies = getCaseStudies(path.join(fixtures, 'case-studies'));
