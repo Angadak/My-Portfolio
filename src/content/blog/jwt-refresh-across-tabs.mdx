@@ -1,0 +1,40 @@
+---
+title: Refreshing JWTs without logging users out of other tabs
+date: 2026-11-24
+summary: How to refresh short-lived access tokens once, share the result across every open tab, and avoid the race that logs people out.
+tags: [auth, typescript, browser]
+draft: true
+---
+
+Short-lived access tokens are good security, but they create a familiar bug: a user has three tabs open, the token expires, and all three tabs try to refresh at the same moment. One wins, the refresh token rotates, and the other two fail and log the user out.
+
+## The fix: one refresher, many listeners
+
+1. Before calling the refresh endpoint, a tab takes a lock so only one refresh runs at a time.
+2. The winning tab stores the new token and announces it on a `BroadcastChannel`.
+3. Every other tab listens and swaps in the new token instead of refreshing on its own.
+
+```ts
+const channel = new BroadcastChannel('auth');
+
+channel.addEventListener('message', (event) => {
+  if (event.data.type === 'token-refreshed') setAccessToken(event.data.token);
+});
+
+export async function refreshOnce(): Promise<string> {
+  return navigator.locks.request('auth-refresh', async () => {
+    const current = getAccessToken();
+    if (current && !isExpiringSoon(current)) return current; // another tab already refreshed
+    const token = await callRefreshEndpoint();
+    setAccessToken(token);
+    channel.postMessage({ type: 'token-refreshed', token });
+    return token;
+  });
+}
+```
+
+## Logging out everywhere
+
+The same channel carries a `logged-out` message, so signing out in one tab signs out all of them.
+
+[fill-in: review this draft, add what you learned in production, then set draft: false]
