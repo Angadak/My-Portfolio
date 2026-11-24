@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { AUTO_ADVANCE_MS, cycle, type HeroWord } from '@/lib/hero';
 import { useMediaQuery } from '@/hooks/use-media-query';
 import { openTerminal } from '@/lib/events';
@@ -21,11 +21,20 @@ export type HeroStageProps = {
   email: string;
 };
 
+function isKeyboardFocus(el: EventTarget): boolean {
+  try {
+    return (el as Element).matches(':focus-visible');
+  } catch {
+    return true;
+  }
+}
+
 export function HeroStage({ words, name, headline, availability, location, github, linkedin, email }: HeroStageProps) {
   const [index, setIndex] = useState(0);
   const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState(false);
   const [userPaused, setUserPaused] = useState(false);
+  const hintId = useId();
   const stageRef = useRef<HTMLElement>(null);
   const cursorRef = useRef<HTMLDivElement>(null);
   const reduced = useMediaQuery('(prefers-reduced-motion: reduce)');
@@ -90,7 +99,7 @@ export function HeroStage({ words, name, headline, availability, location, githu
       tabIndex={0}
       aria-roledescription="carousel"
       aria-label="Skills showcase"
-      aria-describedby="hero-hint"
+      aria-describedby={hintId}
       onMouseMove={onMouseMove}
       onMouseEnter={() => {
         if (finePointer) setHovered(true);
@@ -99,7 +108,7 @@ export function HeroStage({ words, name, headline, availability, location, githu
         setHovered(false);
         if (cursorRef.current) cursorRef.current.dataset.hidden = '';
       }}
-      onFocus={() => setFocused(true)}
+      onFocus={(event) => setFocused(isKeyboardFocus(event.target))}
       onBlur={(event) => {
         if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setFocused(false);
       }}
@@ -169,7 +178,6 @@ export function HeroStage({ words, name, headline, availability, location, githu
         {!reduced && (
           <button
             type="button"
-            aria-pressed={userPaused}
             aria-label={userPaused ? 'Play word animation' : 'Pause word animation'}
             onClick={() => setUserPaused((p) => !p)}
             className="grid size-9 place-items-center rounded-full border border-line text-fg transition-colors hover:bg-surface"
@@ -182,7 +190,7 @@ export function HeroStage({ words, name, headline, availability, location, githu
         <ThemeToggle />
       </div>
 
-      <p id="hero-hint" className="sr-only">
+      <p id={hintId} className="sr-only">
         Use the left and right arrow keys to change the word.
       </p>
 

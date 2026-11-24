@@ -18,7 +18,17 @@ const props = {
 
 const stage = () => screen.getByRole('region', { name: /skills showcase/i });
 
+/** jsdom cannot tell keyboard from pointer focus, so stub :focus-visible. */
+function keyboardFocus(visible: boolean) {
+  const original = Element.prototype.matches;
+  vi.spyOn(Element.prototype, 'matches').mockImplementation(function (this: Element, selector: string) {
+    return selector === ':focus-visible' ? visible : original.call(this, selector);
+  });
+  fireEvent.focus(stage());
+}
+
 afterEach(() => {
+  vi.restoreAllMocks();
   vi.useRealTimers();
 });
 
@@ -73,15 +83,22 @@ describe('HeroStage', () => {
     render(<HeroStage {...props} />);
     const live = screen.getByText('BACKEND: C# · ASP.NET Core · EF Core · SQL Server');
     expect(live).toHaveAttribute('aria-live', 'off');
-    fireEvent.focus(stage());
+    keyboardFocus(true);
     expect(live).toHaveAttribute('aria-live', 'polite');
+  });
+
+  it('does not pause for pointer focus', () => {
+    render(<HeroStage {...props} />);
+    const live = screen.getByText('BACKEND: C# · ASP.NET Core · EF Core · SQL Server');
+    keyboardFocus(false);
+    expect(live).toHaveAttribute('aria-live', 'off');
   });
 
   it('keeps focus pause when the mouse leaves', () => {
     setMedia('(pointer: fine)', true);
     vi.useFakeTimers();
     render(<HeroStage {...props} />);
-    fireEvent.focus(stage());
+    keyboardFocus(true);
     fireEvent.mouseEnter(stage());
     fireEvent.mouseLeave(stage());
     act(() => {
@@ -95,7 +112,8 @@ describe('HeroStage', () => {
     render(<HeroStage {...props} />);
     const button = screen.getByRole('button', { name: 'Pause word animation' });
     fireEvent.click(button);
-    expect(screen.getByRole('button', { name: 'Play word animation' })).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.getByRole('button', { name: 'Play word animation' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Pause word animation' })).not.toBeInTheDocument();
     act(() => {
       vi.advanceTimersByTime(9000);
     });
