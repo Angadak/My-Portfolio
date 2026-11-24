@@ -1,5 +1,33 @@
 import { describe, expect, it } from 'vitest';
-import { experienceSchema } from '@/lib/schemas';
+import { caseStudySchema, experienceSchema } from '@/lib/schemas';
+
+const study = {
+  title: 'T',
+  client: 'C',
+  domain: 'D',
+  role: 'R',
+  teamSize: '4',
+  period: '2026',
+  stack: ['x'],
+  summary: 'S',
+  order: 1,
+};
+
+describe('caseStudySchema numeric text', () => {
+  it('converts numeric teamSize and period to strings', () => {
+    const r = caseStudySchema.safeParse({ ...study, teamSize: 4, period: 2026 });
+    expect(r.success).toBe(true);
+    if (r.success) {
+      expect(r.data.teamSize).toBe('4');
+      expect(r.data.period).toBe('2026');
+    }
+  });
+
+  it('still rejects a missing teamSize', () => {
+    const { teamSize: _omit, ...rest } = study;
+    expect(caseStudySchema.safeParse(rest).success).toBe(false);
+  });
+});
 
 const base = {
   company: 'Acme',
