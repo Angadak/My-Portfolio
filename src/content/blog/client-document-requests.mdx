@@ -1,0 +1,23 @@
+---
+title: Designing a client document-request workflow
+date: 2026-11-20
+summary: Modelling requests, items and reminders so clients know what to send and staff know what is missing.
+tags: [dotnet, svelte, product]
+draft: true
+---
+
+Chasing documents is most of the admin work in an accounting practice. A good request workflow makes the missing items obvious to both sides.
+
+## Model the request, not the email
+
+A request belongs to a client and usually a job. It holds items: a file to upload, a question to answer, a checkbox to confirm. Each item has its own status, so "3 of 5 received" is a query, not a guess.
+
+## Reminders that respect people
+
+Reminders stop the moment a request is complete, and they back off over time. Staff can see when the last reminder went out before chasing manually.
+
+## Make the portal boring
+
+Clients should open the link, see a short checklist, upload, and leave. No account setup before the first upload.
+
+[fill-in: review this draft, add details from the real build, then set draft: false]

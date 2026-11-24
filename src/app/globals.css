@@ -1,0 +1,184 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #f3f3f1;
+  --surface: #ffffff;
+  --text: #111114;
+  --muted: #6b6b73;
+  --line: #dcdcd8;
+  --accent: #6d28d9;
+  --success: #15803d;
+  --danger: #b91c1c;
+  --word: #ffffff;
+  --word-edge: #dcdcd8;
+  --word-shadow: rgb(0 0 0 / 0.16);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d0d10;
+    --surface: #17171c;
+    --text: #ededf0;
+    --muted: #8a8a93;
+    --line: #24242b;
+    --accent: #a78bfa;
+    --success: #3fb950;
+    --danger: #f87171;
+    --word: #17171c;
+    --word-edge: #24242b;
+    --word-shadow: rgb(0 0 0 / 0.6);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #0d0d10;
+  --surface: #17171c;
+  --text: #ededf0;
+  --muted: #8a8a93;
+  --line: #24242b;
+  --accent: #a78bfa;
+  --success: #3fb950;
+  --danger: #f87171;
+  --word: #17171c;
+  --word-edge: #24242b;
+  --word-shadow: rgb(0 0 0 / 0.6);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-fg: var(--text);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-success: var(--success);
+  --color-danger: var(--danger);
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+html {
+  background: var(--bg);
+  color: var(--text);
+  scrollbar-gutter: stable;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Decorative hero word: light fill + stacked edge = embossed look */
+.word-emboss {
+  color: var(--word);
+  text-shadow:
+    0 1px 0 var(--word-edge),
+    0 2px 0 var(--word-edge),
+    0 3px 0 var(--word-edge),
+    0 4px 0 var(--word-edge),
+    0 14px 28px var(--word-shadow);
+}
+
+/* Readable section headings: real text colour + small emboss edge */
+.word-heading {
+  color: var(--text);
+  text-shadow: 0 3px 0 var(--word-edge);
+}
+
+@keyframes hero-pop {
+  from { opacity: 0; transform: scale(0.85) rotate(-10deg); }
+  to { opacity: 1; transform: scale(1) rotate(-5deg); }
+}
+.hero-pop {
+  animation: hero-pop 0.5s cubic-bezier(0.34, 1.45, 0.64, 1) both;
+}
+
+@keyframes nav-load {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(0.9); }
+}
+
+/* Scroll reveal: hidden only when JS is running, so no-JS users still see content */
+[data-reveal] {
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.js [data-reveal]:not([data-shown]) {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .js [data-reveal]:not([data-shown]) {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Long-form content (case studies, blog) */
+.prose-body {
+  font-size: 1.0625rem;
+  line-height: 1.75;
+}
+.prose-body > * + * { margin-top: 1.25em; }
+.prose-body h2 { margin-top: 2.5em; font-size: 1.75rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; }
+.prose-body h3 { margin-top: 2em; font-size: 1.25rem; font-weight: 700; }
+.prose-body a { color: var(--accent); text-decoration: underline; text-underline-offset: 4px; }
+.prose-body ul { list-style: disc; padding-left: 1.25em; }
+.prose-body ol { list-style: decimal; padding-left: 1.25em; }
+.prose-body li + li { margin-top: 0.4em; }
+.prose-body strong { font-weight: 700; }
+.prose-body :not(pre) > code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.1em 0.35em;
+}
+.prose-body pre {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+}
+.prose-body table { width: 100%; border-collapse: collapse; }
+.prose-body th, .prose-body td { border-bottom: 1px solid var(--line); padding: 0.5rem; text-align: left; }
+
+/* Shiki dual themes follow the site theme */
+.shiki, .shiki span { color: var(--shiki-light); background-color: var(--shiki-light-bg); }
+:root[data-theme="dark"] .shiki,
+:root[data-theme="dark"] .shiki span { color: var(--shiki-dark); background-color: var(--shiki-dark-bg); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .shiki,
+  :root:not([data-theme="light"]) .shiki span { color: var(--shiki-dark); background-color: var(--shiki-dark-bg); }
+}
