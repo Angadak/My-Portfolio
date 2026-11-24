@@ -10,7 +10,7 @@
         "http://localhost:3200/experience",
         "http://localhost:3200/contact"
       ],
-      "numberOfRuns": 1
+      "numberOfRuns": 3
     },
     "assert": {
       "assertions": {
