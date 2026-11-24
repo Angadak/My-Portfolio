@@ -27,7 +27,7 @@ npm run dev
 
 - **Case studies:** `src/content/case-studies/*.mdx`. Frontmatter is validated by `src/lib/schemas.ts`; a missing field fails the build with the file and field name.
 - **Blog:** `src/content/blog/*.mdx`. `draft: true` hides a post in production.
-- **Demo projects:** `src/content/projects/*.mdx`. Only `status: live` projects appear; the Projects page and nav link stay hidden until one exists.
+- **Demo projects:** create `src/content/projects/` and add `*.mdx` files when adding the first demo (the folder does not exist yet). Only `status: live` projects appear; the Projects page and nav link stay hidden until one exists.
 - **Profile, experience, skills, testimonials:** `src/data/*.ts`. Testimonials appear once there are two real ones.
 - **Unfinished facts:** write `[fill-in: what is missing]`. Dev shows it; production (`VERCEL_ENV=production` or `CONTENT_STRICT=1`) refuses to build until every marker is replaced.
 
