@@ -12,18 +12,23 @@ test('cycles words by click and keyboard', async ({ page }) => {
 });
 
 test('auto-advances when idle', async ({ page }) => {
+  await page.clock.install();
   await page.goto('/');
   const stage = page.getByRole('region', { name: /skills showcase/i });
-  await expect(stage.getByText(/^02 \//)).toBeVisible({ timeout: 6000 });
+  await expect(stage.getByText(/^01 \//)).toBeVisible();
+  await page.clock.fastForward(4100);
+  await expect(stage.getByText(/^02 \//)).toBeVisible();
 });
 
 test.describe('reduced motion', () => {
   test.use({ reducedMotion: 'reduce' });
 
   test('does not auto-advance', async ({ page }) => {
+    await page.clock.install();
     await page.goto('/');
     const stage = page.getByRole('region', { name: /skills showcase/i });
-    await page.waitForTimeout(5000);
+    await expect(stage.getByText(/^01 \//)).toBeVisible();
+    await page.clock.fastForward(9000);
     await expect(stage.getByText(/^01 \//)).toBeVisible();
   });
 });
