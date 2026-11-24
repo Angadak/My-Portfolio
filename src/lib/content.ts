@@ -12,7 +12,11 @@ export type CaseStudy = Entry<z.output<typeof caseStudySchema>>;
 export type Project = Entry<z.output<typeof projectSchema>>;
 export type Post = Entry<z.output<typeof postSchema>>;
 
-export function loadCollection<S extends z.ZodType>(dir: string, schema: S): Entry<z.output<S>>[] {
+export function loadCollection<S extends z.ZodType>(
+  dir: string,
+  schema: S,
+  { skipGuard }: { skipGuard?: (data: z.output<S>) => boolean } = {},
+): Entry<z.output<S>>[] {
   if (!fs.existsSync(dir)) return [];
   return fs
     .readdirSync(dir)
@@ -30,7 +34,7 @@ export function loadCollection<S extends z.ZodType>(dir: string, schema: S): Ent
         slug: file.replace(/\.mdx$/, ''),
         body: content,
       } as Entry<z.output<S>>;
-      return guardFillIns(entry, fullPath);
+      return skipGuard?.(parsed.data) ? entry : guardFillIns(entry, fullPath);
     });
 }
 
@@ -62,7 +66,7 @@ export function getPosts(
   dir = path.join(CONTENT_DIR, 'blog'),
   { includeDrafts = process.env.NODE_ENV !== 'production' }: { includeDrafts?: boolean } = {},
 ): Post[] {
-  return loadCollection(dir, postSchema)
+  return loadCollection(dir, postSchema, { skipGuard: (p) => p.draft })
     .filter((p) => includeDrafts || !p.draft)
     .sort((a, b) => b.date.getTime() - a.date.getTime() || a.slug.localeCompare(b.slug));
 }
