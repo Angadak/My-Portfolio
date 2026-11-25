@@ -85,11 +85,11 @@ export function CareerMode({ roles }: { roles: CareerRole[] }) {
                     : 'border-ink/30 bg-surface hover:-translate-y-0.5 hover:border-ink hover:shadow-[3px_3px_0_0_var(--accent)] md:hover:translate-x-1 md:hover:translate-y-0'
                 }`}
               >
-                <span className={`label block text-[0.65rem] ${active ? 'text-on-accent/80' : 'text-muted'}`}>
+                <span className={`label block text-[0.65rem] ${active ? 'text-on-accent' : 'text-muted'}`}>
                   {r.from} — {r.to}
                 </span>
                 <span className="mt-1 block font-display text-lg leading-tight">{r.company}</span>
-                <span className={`block text-sm ${active ? 'text-on-accent/90' : 'text-muted'}`}>{r.role}</span>
+                <span className={`block text-sm ${active ? 'text-on-accent' : 'text-muted'}`}>{r.role}</span>
                 {r.current && (
                   <span
                     className={`label absolute right-3 top-3 px-1.5 py-0.5 text-[0.6rem] font-bold ${

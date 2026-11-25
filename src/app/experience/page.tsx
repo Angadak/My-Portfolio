@@ -62,7 +62,7 @@ export default function ExperiencePage() {
                   />
                   <div className="flex items-center justify-between gap-3">
                     <h3 className="label font-bold text-accent">{group.label}</h3>
-                    <span aria-hidden className="font-display text-2xl leading-none text-muted/40 transition group-hover/card:text-accent">
+                    <span aria-hidden className="font-display text-2xl leading-none text-muted transition group-hover/card:text-accent">
                       {String(group.skills.length).padStart(2, '0')}
                     </span>
                   </div>

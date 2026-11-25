@@ -18,7 +18,8 @@ test('sends a message and clears the form', async ({ page }) => {
   await page.clock.install();
   await page.goto('/contact');
   await fill(page, 'recruiter@example.com');
-  await expect(page.getByText('Thanks, your message is on its way.')).toBeVisible();
+  // the sentence also appears in the toast, so look inside the form
+  await expect(page.locator('form').getByText('Thanks, your message is on its way.')).toBeVisible();
   await expect(page.getByRole('textbox', { name: 'Name' })).toHaveValue('');
 });
 
