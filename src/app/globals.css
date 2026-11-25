@@ -479,6 +479,59 @@ body:has([data-keystatic-admin])::after {
   .page-wipe { display: none; }
 }
 
+/* ---------- Scrollbar: a blue manga slider carrying the ball down a dashed pitch line ---------- */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background-color: var(--bg);
+}
+::-webkit-scrollbar-track:vertical {
+  background-image: repeating-linear-gradient(180deg, color-mix(in srgb, var(--muted) 55%, transparent) 0 6px, transparent 6px 12px);
+  background-size: 2px 100%;
+  background-position: center top;
+  background-repeat: no-repeat;
+  border-left: 1px solid var(--line);
+}
+::-webkit-scrollbar-track:horizontal {
+  border-top: 1px solid var(--line);
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--accent);
+  border: 1px solid var(--ink);
+}
+::-webkit-scrollbar-thumb:vertical {
+  min-height: 56px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Ccircle cx='18' cy='18' r='16' fill='%23fff' stroke='%2307080d' stroke-width='3'/%3E%3Cpath d='M18 11.5l6.2 4.5-2.4 7.3h-7.6l-2.4-7.3z' fill='%2307080d'/%3E%3Cpath d='M18 11.5V3M24.2 16l8-2.7M21.8 23.3l5 7M14.2 23.3l-5 7M11.8 16l-8-2.7' stroke='%2307080d' stroke-width='2.4' fill='none'/%3E%3C/svg%3E");
+  background-size: 8px 8px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+::-webkit-scrollbar-thumb:hover,
+::-webkit-scrollbar-thumb:active {
+  background-color: var(--accent-2);
+}
+::-webkit-scrollbar-corner {
+  background: var(--bg);
+}
+/* Firefox has no scrollbar pseudo-elements: colours only. (Setting these in Chrome would switch the styles above off.) */
+@supports not selector(::-webkit-scrollbar) {
+  html {
+    scrollbar-color: var(--accent) var(--bg);
+  }
+}
+/* The admin panel keeps a plain scrollbar that matches its own dark interface */
+html:has([data-keystatic-admin]) ::-webkit-scrollbar-track {
+  background: #1f1f1f;
+  border: 0;
+}
+html:has([data-keystatic-admin]) ::-webkit-scrollbar-thumb {
+  background: #4a4a4a;
+  border: 2px solid #1f1f1f;
+  border-radius: 8px;
+}
+
 /* ---------- Long-form content (case studies, blog) ---------- */
 .prose-body {
   font-size: 1.0625rem;
