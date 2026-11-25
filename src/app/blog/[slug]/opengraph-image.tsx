@@ -3,7 +3,7 @@ import { OG_SIZE, renderOg } from '@/lib/og';
 
 export const size = OG_SIZE;
 export const contentType = 'image/png';
-export const alt = 'Note by Angad Kumar';
+export const alt = 'Blog post cover image';
 
 export function generateStaticParams() {
   return getPosts().map((p) => ({ slug: p.slug }));

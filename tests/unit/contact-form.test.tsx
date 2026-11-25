@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { ContactForm } from '@/components/contact/contact-form';
+import { ContactForm, TOPICS } from '@/components/contact/contact-form';
 import { TOAST } from '@/lib/events';
 
 const { sendContact } = vi.hoisted(() => ({ sendContact: vi.fn() }));
@@ -53,6 +53,31 @@ describe('ContactForm', () => {
     expect(sent.get('email')).toBe('sam@example.com');
     expect(Number(sent.get('elapsedMs'))).toBeGreaterThanOrEqual(0);
     expect(screen.getByRole('textbox', { name: 'Name' })).toHaveValue('');
+    expect(screen.getByRole('status')).toHaveTextContent('Thanks, your message is on its way.');
     window.removeEventListener(TOAST, toastListener);
+  });
+
+  it('quick-start chips fill an empty message but never overwrite your own text', async () => {
+    const user = userEvent.setup();
+    render(<ContactForm email="a@b.co" />);
+    const message = screen.getByRole('textbox', { name: 'Message' });
+    await user.click(screen.getByRole('button', { name: 'Full-time role' }));
+    expect(message).toHaveValue(TOPICS[0].text);
+    expect(screen.getByRole('button', { name: 'Full-time role' })).toHaveAttribute('aria-pressed', 'true');
+    await user.click(screen.getByRole('button', { name: 'Contract work' }));
+    expect(message).toHaveValue(TOPICS[1].text);
+    await user.type(message, ' Budget is flexible.');
+    await user.click(screen.getByRole('button', { name: 'Just saying hi' }));
+    expect(message).toHaveValue(`${TOPICS[1].text} Budget is flexible.`);
+  });
+
+  it('clears a field error as soon as the field is edited', async () => {
+    const user = userEvent.setup();
+    render(<ContactForm email="a@b.co" />);
+    await user.click(screen.getByRole('button', { name: 'Send message' }));
+    expect(screen.getByText('Enter your name')).toBeInTheDocument();
+    await user.type(screen.getByRole('textbox', { name: 'Name' }), 'Sa');
+    expect(screen.queryByText('Enter your name')).toBeNull();
+    expect(screen.getByRole('textbox', { name: 'Name' })).not.toHaveAttribute('aria-invalid');
   });
 });

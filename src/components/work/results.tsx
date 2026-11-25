@@ -9,7 +9,7 @@ export function Results({ metrics }: { metrics: Metric[] }) {
       </h2>
       <dl className="mt-6 grid gap-4 sm:grid-cols-3">
         {metrics.map((m) => (
-          <div key={m.label} className="flex flex-col-reverse rounded-xl border border-line bg-surface p-5">
+          <div key={m.label} className="flex flex-col-reverse panel p-5">
             <dt className="mt-1 text-sm text-muted">{m.label}</dt>
             <dd className="text-3xl font-black tracking-tight">{m.value}</dd>
           </div>

@@ -1,63 +1,16 @@
+// Content lives in src/content/settings/*.json and is edited in the admin panel (/keystatic). Do not hardcode it here.
 import { z } from 'zod';
 import { experienceSchema } from '@/lib/schemas';
 import { guardFillIns } from '@/lib/fill-in';
+import data from '@/content/settings/experience.json';
 
-export const experience = guardFillIns(
-  z.array(experienceSchema).parse([
-    {
-      company: 'AEPartners',
-      role: 'Software Engineer',
-      location: 'Brighton, VIC, Australia',
-      start: '2026-04',
-      highlights: [
-        'Building a custom practice-management platform for accounting firms: client document requests, job workflow and email.',
-        'Developing Svelte 5 + TypeScript front ends and ASP.NET Core Web APIs.',
-        'Integrating third-party systems through REST APIs.',
-      ],
-    },
-    {
-      company: 'TechUTD',
-      role: 'Software Engineer',
-      location: 'Noida, India',
-      start: '2024-12',
-      end: '2026-03',
-      highlights: [
-        'Built the Edenred employee-benefits admin portal with Blazor and .NET Core, used by global clients.',
-        'Set up CI/CD pipelines and Azure deployments.',
-      ],
-    },
-    {
-      company: 'AD Software Solutions',
-      role: 'Software Developer',
-      location: 'Delhi, India',
-      start: '2023-04',
-      end: '2024-12',
-      highlights: [
-        'Built ASP.NET Core APIs and dashboards for IRCTC government projects (TRIS), including face-recognition login.',
-        'Delivered reporting modules for the CWECS water and energy analytics platform.',
-        'Built Node.js back ends for the Moowr reconciliation platform and ClaimsToExcel.',
-      ],
-    },
-    {
-      company: 'MRM / McCann',
-      role: 'Junior Software Developer',
-      location: 'Gurugram, India',
-      start: '2022-04',
-      end: '2023-04',
-      highlights: ['Developed websites for JCB, NASSCOM and BITS Pilani.'],
-    },
-  ]),
-  'src/data/experience.ts',
-);
+const text = z.string().trim().min(1);
+const file = 'src/content/settings/experience.json';
 
-export const education = [
-  { school: 'Guru Gobind Singh Indraprastha University', degree: 'BCA (Computer Applications)', period: '2018 – 2021' },
-] as const;
+export const experience = guardFillIns(z.array(experienceSchema).parse(data.roles), file);
 
-export const certifications = [
-  { name: 'ASP.NET MVC 5 — Ultimate Guide', issuer: 'Udemy', date: 'Oct 2025' },
-] as const;
+export const education = z.array(z.object({ school: text, degree: text, period: text })).parse(data.education ?? []);
 
-export const alsoBuilt = [
-  { name: 'ClaimsToExcel', detail: 'Node.js + Sequelize back end that turns healthcare claims into structured Excel reports (2023).' },
-] as const;
+export const certifications = z.array(z.object({ name: text, issuer: text, date: text })).parse(data.certifications ?? []);
+
+export const alsoBuilt = z.array(z.object({ name: text, detail: text })).parse(data.alsoBuilt ?? []);

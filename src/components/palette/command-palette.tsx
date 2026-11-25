@@ -41,11 +41,14 @@ export function CommandPalette({ index, onClose }: { index: SiteIndex; onClose: 
       <div role="dialog" aria-modal="true" aria-label="Command palette" className="w-full max-w-xl">
         <Command
           label="Command palette"
-          className="overflow-hidden rounded-xl border border-line bg-surface text-fg shadow-2xl"
+          className="overflow-hidden panel text-fg shadow-2xl"
           onKeyDown={(event) => {
             if (event.key === 'Escape') {
               event.preventDefault();
               onClose();
+            } else if (event.key === 'Tab') {
+              // Modal dialog: the input is the only tab stop, so keep focus inside.
+              event.preventDefault();
             }
           }}
         >

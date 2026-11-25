@@ -1,17 +1,13 @@
 import type { PropName } from '@/components/props/props';
+import { siteCopy } from '@/data/site';
 
 export type HeroWord = { word: string; prop: PropName; caption: string };
 
 export const AUTO_ADVANCE_MS = 4000;
 
-export function heroWords(years: string): HeroWord[] {
-  return [
-    { word: 'BACKEND', prop: 'database', caption: 'C# · ASP.NET Core · EF Core · SQL Server' },
-    { word: 'FRONTEND', prop: 'browser', caption: 'TypeScript · Svelte 5 · React' },
-    { word: 'APIs', prop: 'api', caption: 'REST · auth · integrations' },
-    { word: 'CLOUD', prop: 'cloud', caption: 'Azure · Docker · CI/CD' },
-    { word: 'SHIPPING', prop: 'mug', caption: `${years} of production work` },
-  ];
+/** Hero words come from the admin panel (site copy). `{years}` in a caption becomes e.g. "4.5+ years". */
+export function heroWords(years: string, words: HeroWord[] = siteCopy.heroWords): HeroWord[] {
+  return words.map((w) => ({ ...w, caption: w.caption.replaceAll('{years}', years) }));
 }
 
 export function cycle(index: number, length: number, step: 1 | -1): number {

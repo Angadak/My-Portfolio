@@ -11,7 +11,7 @@ export function SummaryBar({ client, role, teamSize, period, stack }: Props) {
   ];
   const rows = all.filter((row): row is [string, string] => Boolean(row[1]));
   return (
-    <dl className="mt-10 grid gap-6 rounded-xl border border-line bg-surface p-6 sm:grid-cols-2">
+    <dl className="mt-10 grid gap-6 panel p-6 sm:grid-cols-2">
       {rows.map(([label, value]) => (
         <div key={label}>
           <dt className="label text-muted">{label}</dt>

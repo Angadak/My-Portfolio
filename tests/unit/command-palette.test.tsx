@@ -65,4 +65,20 @@ describe('CommandPalette', () => {
     await user.keyboard('{Escape}');
     expect(onClose).toHaveBeenCalled();
   });
+
+  it('keeps focus inside on Tab and Shift+Tab', async () => {
+    const user = userEvent.setup();
+    render(
+      <>
+        <CommandPalette index={index} onClose={vi.fn()} />
+        <button type="button">Outside</button>
+      </>,
+    );
+    const input = screen.getByRole('combobox');
+    expect(input).toHaveFocus();
+    await user.tab();
+    expect(input).toHaveFocus();
+    await user.tab({ shift: true });
+    expect(input).toHaveFocus();
+  });
 });

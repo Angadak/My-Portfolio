@@ -24,9 +24,9 @@ test('command palette navigates with Ctrl+K', async ({ page }) => {
 
 test('theme choice persists across reloads', async ({ page }) => {
   await page.emulateMedia({ colorScheme: 'light' });
-  await page.goto('/');
-  // header and hero both have a toggle; use the header one
-  await page.getByRole('banner').getByRole('button', { name: 'Toggle colour theme' }).click();
+  await page.goto('/', { waitUntil: 'networkidle' });
+  await page.getByRole('button', { name: 'Open menu' }).click();
+  await page.getByRole('dialog', { name: 'Site menu' }).getByRole('button', { name: 'Toggle colour theme' }).click();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   await page.reload();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');

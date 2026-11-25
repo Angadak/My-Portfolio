@@ -39,7 +39,7 @@ export default async function CaseStudyPage({ params }: Params) {
       <p className="label text-accent">
         {String(study.order).padStart(2, '0')} / Case study · {study.domain}
       </p>
-      <h1 className="mt-3 text-4xl font-black tracking-tight sm:text-5xl">{study.title}</h1>
+      <h1 className="mt-3 font-display text-4xl font-extrabold tracking-[-0.02em] sm:text-5xl">{study.title}</h1>
       <p className="mt-4 text-lg text-muted">{study.summary}</p>
       <SummaryBar client={study.client} role={study.role} teamSize={study.teamSize} period={study.period} stack={study.stack} />
       <div className="prose-body mt-12">

@@ -3,7 +3,7 @@ import { OG_SIZE, renderOg } from '@/lib/og';
 
 export const size = OG_SIZE;
 export const contentType = 'image/png';
-export const alt = 'Case study by Angad Kumar';
+export const alt = 'Case study cover image';
 
 export function generateStaticParams() {
   return getCaseStudies().map((s) => ({ slug: s.slug }));

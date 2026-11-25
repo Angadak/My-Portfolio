@@ -25,15 +25,15 @@ npm run dev
 
 ## Editing content
 
-- **Case studies:** `src/content/case-studies/*.mdx`. Frontmatter is validated by `src/lib/schemas.ts`; a missing field fails the build with the file and field name.
-- **Blog:** `src/content/blog/*.mdx`. `draft: true` hides a post in production.
-- **Demo projects:** create `src/content/projects/` and add `*.mdx` files when adding the first demo (the folder does not exist yet). Only `status: live` projects appear; the Projects page and nav link stay hidden until one exists.
-- **Profile, experience, skills, testimonials:** `src/data/*.ts`. Testimonials appear once there are two real ones.
+All content is edited in the admin panel at `/keystatic` — no code changes. See **[CONTENT.md](CONTENT.md)** for the guide and the one-time setup for editing the live site.
+
+- **Where it lives:** profile, CV, experience, skills, testimonials and site text in `src/content/settings/*.json`; case studies, blog posts and projects in `src/content/{case-studies,blog,projects}/*.mdx`. Everything is validated by `src/lib/schemas.ts`; a bad value fails the build with the file and field name.
+- **Blog:** `draft: true` hides a post in production. **Projects:** only `status: live` projects appear; the Projects page and nav link stay hidden until one exists. **Testimonials** appear once there are two real ones.
 - **Unfinished facts:** write `[fill-in: what is missing]`. Dev shows it; production (`VERCEL_ENV=production` or `CONTENT_STRICT=1`) refuses to build until every marker is replaced.
 
 ## Architecture
 
-- Every route is statically generated from repo content. Client components are limited to the hero stage, theme toggle, mobile menu, terminal, command palette, toaster, nav progress and contact form.
+- Every route is statically generated from repo content. Client components are limited to the hero stage, theme toggle, site menu, section rail, scroll ball (lazy-loaded, home page only), terminal, command palette, toaster, nav progress and contact form.
 - The terminal and command palette are lazy-loaded and talk to the rest of the page through window events (`src/lib/events.ts`).
 - The contact form validates on the client, then a server action re-validates, checks a honeypot and minimum fill time, and sends through Resend. Failures show an error with a `mailto:` fallback.
 - Theme follows the system setting until the visitor picks one; an inline head script applies the choice before first paint.

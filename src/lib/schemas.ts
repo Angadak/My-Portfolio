@@ -4,6 +4,8 @@ const text = z.string().trim().min(1);
 /** YAML parses bare numbers as numbers; accept them as text without turning missing values into "undefined". */
 const textish = z.preprocess((v) => (typeof v === 'number' ? String(v) : v), text);
 const month = z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/, 'Use YYYY-MM');
+/** The admin panel saves an empty optional field as "" (or leaves it out): treat both as missing. */
+const blankToUndefined = (v: unknown) => (v === '' || v === null ? undefined : v);
 
 export const metricSchema = z.object({ value: text, label: text });
 
@@ -12,7 +14,7 @@ export const caseStudySchema = z.object({
   client: text,
   domain: text,
   role: text,
-  teamSize: textish.optional(),
+  teamSize: z.preprocess(blankToUndefined, textish.optional()),
   period: textish,
   stack: z.array(text).min(1),
   summary: text,
@@ -25,7 +27,7 @@ export const projectSchema = z.object({
   title: text,
   status: z.enum(['live', 'building']),
   repoUrl: z.url(),
-  liveUrl: z.url().optional(),
+  liveUrl: z.preprocess(blankToUndefined, z.url().optional()),
   stack: z.array(text).min(1),
   summary: text,
   order: z.number().int().default(0),
@@ -52,7 +54,7 @@ export const experienceSchema = z.object({
   role: text,
   location: text,
   start: month,
-  end: month.optional(),
+  end: z.preprocess(blankToUndefined, month.optional()),
   highlights: z.array(text).min(1),
 });
 
@@ -75,8 +77,29 @@ export const profileSchema = z.object({
   /** plain string so a `[fill-in]` marker is allowed until the real URL is known */
   linkedin: text,
   careerStart: month,
+  /** Path of the CV PDF in /public, set by uploading a file in the admin panel. */
+  cv: z.preprocess(blankToUndefined, text.default('/cv.pdf')),
 });
 
+export const heroPropNames = ['database', 'browser', 'api', 'cloud', 'mug'] as const;
+
+export const siteCopySchema = z.object({
+  seoDescription: text,
+  heroWords: z
+    .array(z.object({ word: text, prop: z.enum(heroPropNames), caption: text }))
+    .min(1),
+  workTitle: text,
+  projectsTitle: text,
+  experienceTitle: text,
+  testimonialsTitle: text,
+  postsTitle: text,
+  contactTitle: text,
+  contactText: text,
+  contactPageTitle: text,
+  contactPageIntro: text,
+});
+
+export type SiteCopy = z.output<typeof siteCopySchema>;
 export type CaseStudyData = z.output<typeof caseStudySchema>;
 export type ProjectData = z.output<typeof projectSchema>;
 export type PostData = z.output<typeof postSchema>;

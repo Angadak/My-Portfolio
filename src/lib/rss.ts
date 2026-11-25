@@ -1,3 +1,4 @@
+import { profile } from '@/data/profile';
 import type { Post } from './content';
 
 export function escapeXml(value: string): string {
@@ -24,7 +25,7 @@ export function buildRss(posts: Post[], siteUrl: string): string {
   return `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
   <channel>
-    <title>Angad Kumar — Notes</title>
+    <title>${escapeXml(profile.name)} — Notes</title>
     <link>${siteUrl}/blog</link>
     <description>Technical notes on .NET, TypeScript and building production software.</description>
     <language>en</language>

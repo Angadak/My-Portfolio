@@ -1,0 +1,19 @@
+{
+  "seoDescription": "Full-stack engineer building secure ASP.NET Core APIs and TypeScript front ends for fintech and enterprise teams. Open to remote roles worldwide.",
+  "heroWords": [
+    { "word": "BACKEND", "prop": "database", "caption": "C# · ASP.NET Core · EF Core · SQL Server" },
+    { "word": "FRONTEND", "prop": "browser", "caption": "TypeScript · Svelte 5 · React" },
+    { "word": "APIs", "prop": "api", "caption": "REST · auth · integrations" },
+    { "word": "CLOUD", "prop": "cloud", "caption": "Azure · Docker · CI/CD" },
+    { "word": "SHIPPING", "prop": "mug", "caption": "{years} of production work" }
+  ],
+  "workTitle": "Things I've built",
+  "projectsTitle": "Open-source builds",
+  "experienceTitle": "Where I've played",
+  "testimonialsTitle": "What people say",
+  "postsTitle": "Notes from the work",
+  "contactTitle": "Let's work together",
+  "contactText": "Hiring for a .NET or TypeScript role, or need a full-stack engineer for a project? Let's talk.",
+  "contactPageTitle": "Let's talk",
+  "contactPageIntro": "Hiring for a full-stack .NET or TypeScript role, or have a project in mind? Send a message or reach me directly."
+}

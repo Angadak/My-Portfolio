@@ -1,49 +1,69 @@
 @import "tailwindcss";
 
+/* ==========================================================================
+   Manga theme: sports-manga pages. Ink + cool paper, one electric "ego" blue.
+   Light = printed page. Dark = "ego mode" (night pitch, blue glow).
+   ========================================================================== */
+
 :root {
-  --bg: #f3f3f1;
+  --bg: #eef1f6;
   --surface: #ffffff;
-  --text: #111114;
-  --muted: #6b6b73;
-  --line: #dcdcd8;
-  --accent: #6d28d9;
+  --text: #07080d;
+  --ink: #07080d;
+  --muted: #565c6e;
+  --line: #c9cfdc;
+  --accent: #1238ff;
+  --accent-2: #00b7ff;
+  --glow: rgb(18 56 255 / 0);
+  --tone: rgb(7 8 13 / 0.1);
+  --tone-accent: rgb(18 56 255 / 0.16);
+  --speed: rgb(7 8 13 / 0.32);
   --success: #15803d;
   --danger: #b91c1c;
-  --word: #ffffff;
-  --word-edge: #dcdcd8;
-  --word-shadow: rgb(0 0 0 / 0.16);
+  --on-accent: #ffffff;
+  --shadow: var(--ink);
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0d0d10;
-    --surface: #17171c;
-    --text: #ededf0;
-    --muted: #8a8a93;
-    --line: #24242b;
-    --accent: #a78bfa;
+    --bg: #05060b;
+    --surface: #0c0f1c;
+    --text: #eef1ff;
+    --ink: #e8ecff;
+    --muted: #8d94b0;
+    --line: #232944;
+    --accent: #3d7bff;
+    --accent-2: #45e0ff;
+    --glow: rgb(61 123 255 / 0.3);
+    --tone: rgb(232 236 255 / 0.06);
+    --tone-accent: rgb(61 123 255 / 0.18);
+    --speed: rgb(140 170 255 / 0.28);
     --success: #3fb950;
     --danger: #f87171;
-    --word: #17171c;
-    --word-edge: #24242b;
-    --word-shadow: rgb(0 0 0 / 0.6);
+    --on-accent: #05060b;
+    --shadow: var(--accent);
     color-scheme: dark;
   }
 }
 
 :root[data-theme="dark"] {
-  --bg: #0d0d10;
-  --surface: #17171c;
-  --text: #ededf0;
-  --muted: #8a8a93;
-  --line: #24242b;
-  --accent: #a78bfa;
+  --bg: #05060b;
+  --surface: #0c0f1c;
+  --text: #eef1ff;
+  --ink: #e8ecff;
+  --muted: #8d94b0;
+  --line: #232944;
+  --accent: #3d7bff;
+  --accent-2: #45e0ff;
+  --glow: rgb(61 123 255 / 0.3);
+  --tone: rgb(232 236 255 / 0.06);
+  --tone-accent: rgb(61 123 255 / 0.18);
+  --speed: rgb(140 170 255 / 0.28);
   --success: #3fb950;
   --danger: #f87171;
-  --word: #17171c;
-  --word-edge: #24242b;
-  --word-shadow: rgb(0 0 0 / 0.6);
+  --on-accent: #05060b;
+  --shadow: var(--accent);
   color-scheme: dark;
 }
 
@@ -51,36 +71,81 @@
   --color-bg: var(--bg);
   --color-surface: var(--surface);
   --color-fg: var(--text);
+  --color-ink: var(--ink);
   --color-muted: var(--muted);
   --color-line: var(--line);
   --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
   --color-success: var(--success);
   --color-danger: var(--danger);
+  --color-on-accent: var(--on-accent);
   --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-display: var(--font-dela), var(--font-geist), ui-sans-serif, system-ui, sans-serif;
 }
 
 html {
   background: var(--bg);
   color: var(--text);
   scrollbar-gutter: stable;
+  /* Dela Gothic One ships one weight: never fake-bold it */
+  font-synthesis: none;
 }
 
 body {
   font-family: var(--font-sans);
-  background: var(--bg);
+  /* transparent so the fixed manga backdrop layers (z -1) show through */
+  background: transparent;
   color: var(--text);
   -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+/* Page backdrop: halftone that fades from the corners, like printed shading. Fixed = no scroll repaint. */
+body::before {
+  content: "";
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(circle, var(--tone) 1px, transparent 1.5px),
+    radial-gradient(circle, var(--tone-accent) 1.2px, transparent 1.7px);
+  background-size: 7px 7px, 9px 9px;
+  background-position: 0 0, 3px 3px;
+
+
+}
+body::after {
+  content: "";
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  /* clears the dots out of the reading area so text stays clean */
+  background: radial-gradient(ellipse 70% 65% at 50% 45%, var(--bg) 55%, transparent 100%);
 }
 
 ::selection {
   background: var(--accent);
-  color: var(--bg);
+  color: var(--on-accent);
 }
 
-:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
+@layer base {
+  /* in the base layer so a component can replace it (e.g. a field that shows focus on its whole box) */
+  :focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 3px;
+  }
+}
+
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  summary {
+    cursor: pointer;
+  }
 }
 
 .label {
@@ -90,29 +155,147 @@ body {
   text-transform: uppercase;
 }
 
-/* Decorative hero word: light fill + stacked edge = embossed look */
-.word-emboss {
-  color: var(--word);
-  text-shadow:
-    0 1px 0 var(--word-edge),
-    0 2px 0 var(--word-edge),
-    0 3px 0 var(--word-edge),
-    0 4px 0 var(--word-edge),
-    0 14px 28px var(--word-shadow);
+/* ---------- Manga utilities ---------- */
+
+/* Comic panel: thick ink border, hard offset shadow (blue glow edge in ego mode) */
+.panel {
+  border: 2px solid var(--ink);
+  background: var(--surface);
+  box-shadow: 4px 4px 0 0 var(--shadow);
+}
+/* Interactive panel: lifts toward the reader and the shadow turns blue */
+.panel-hit {
+  transition: transform 0.25s cubic-bezier(0.34, 1.45, 0.64, 1), box-shadow 0.25s ease, border-color 0.2s ease;
+}
+.panel-hit:hover,
+.panel-hit:focus-within {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 0 var(--accent);
 }
 
-/* Readable section headings: real text colour + small emboss edge */
-.word-heading {
-  color: var(--text);
-  text-shadow: 0 3px 0 var(--word-edge);
+/* Slanted panel corner, like a cut manga frame */
+.panel-cut {
+  clip-path: polygon(0 0, calc(100% - 28px) 0, 100% 28px, 100% 100%, 28px 100%, 0 calc(100% - 28px));
+}
+
+/* Screentone dots */
+.tone {
+  background-image: radial-gradient(circle, var(--tone) 1px, transparent 1.5px);
+  background-size: 6px 6px;
+}
+.tone-accent {
+  background-image: radial-gradient(circle, var(--tone-accent) 1.3px, transparent 1.8px);
+  background-size: 8px 8px;
+}
+.tone-fade {
+  background-image: radial-gradient(circle, var(--tone) 1.1px, transparent 1.6px);
+  background-size: 6px 6px;
+  mask-image: linear-gradient(to bottom, black, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, black, transparent);
+}
+
+/* Focus lines radiating from the centre: the "locked-in" manga moment */
+.speed-lines {
+  background-image: repeating-conic-gradient(
+    from 0deg at 50% 50%,
+    var(--speed) 0deg 0.55deg,
+    transparent 0.55deg 3.6deg,
+    var(--speed) 3.6deg 3.85deg,
+    transparent 3.85deg 8deg
+  );
+  mask-image: radial-gradient(ellipse at center, transparent 26%, black 70%);
+  -webkit-mask-image: radial-gradient(ellipse at center, transparent 26%, black 70%);
+}
+.speed-lines-accent {
+  background-image: repeating-conic-gradient(from 0deg at 50% 50%, var(--accent) 0deg 0.7deg, transparent 0.7deg 5deg);
+  mask-image: radial-gradient(ellipse at center, transparent 34%, black 80%);
+  -webkit-mask-image: radial-gradient(ellipse at center, transparent 34%, black 80%);
+}
+/* Horizontal motion streaks (a sprint across the panel) */
+.speed-streaks {
+  background-image:
+    repeating-linear-gradient(180deg, transparent 0 9px, var(--speed) 9px 10px, transparent 10px 23px, var(--speed) 23px 25px, transparent 25px 41px);
+  mask-image: linear-gradient(90deg, transparent, black 30%, black 70%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 30%, black 70%, transparent);
+}
+
+/* Outlined display type, paired with a filled copy behind it */
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--ink);
+}
+/* SFX / impact lettering: stroke painted under the fill */
+.impact {
+  font-family: var(--font-display);
+  color: var(--accent);
+  paint-order: stroke fill;
+  -webkit-text-stroke: 5px var(--ink);
+  letter-spacing: 0.02em;
+}
+/* Ego-mode glow (only visible in dark, --glow is transparent in light) */
+.ego-glow {
+  text-shadow: 0 0 18px var(--glow);
+}
+
+/* Ink brush underline under a word */
+.ink-mark {
+  background-image: linear-gradient(transparent 62%, var(--accent) 62%, var(--accent) 88%, transparent 88%);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  padding-inline: 0.06em;
+}
+
+/* ---------- Keyframes ---------- */
+
+/* Headline word slams in: rise + un-skew with overshoot */
+@keyframes slam {
+  0% { opacity: 0; transform: translateY(25%) skewX(-12deg) scale(1.06); }
+  100% { opacity: 1; transform: translateY(0) skewX(-6deg) scale(1); }
+}
+.slam {
+  animation: slam 0.55s cubic-bezier(0.34, 1.45, 0.64, 1) both;
 }
 
 @keyframes hero-pop {
-  from { opacity: 0; transform: scale(0.85) rotate(-10deg); }
+  from { opacity: 0; transform: scale(0.6) rotate(-16deg); }
   to { opacity: 1; transform: scale(1) rotate(-5deg); }
 }
 .hero-pop {
   animation: hero-pop 0.5s cubic-bezier(0.34, 1.45, 0.64, 1) both;
+}
+
+/* SFX stamp */
+@keyframes sfx {
+  0% { opacity: 0; transform: scale(0.2) rotate(-30deg); }
+  70% { opacity: 1; transform: scale(1.12) rotate(-8deg); }
+  100% { opacity: 1; transform: scale(1) rotate(-10deg); }
+}
+.sfx {
+  animation: sfx 0.5s cubic-bezier(0.34, 1.8, 0.64, 1) 0.18s both;
+}
+
+/* Blue slash sweeping across the hero */
+@keyframes slash-in {
+  from { transform: translateX(-120%) skewX(-24deg); }
+  to { transform: translateX(0) skewX(-24deg); }
+}
+.slash {
+  animation: slash-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Focus lines slowly breathing */
+@keyframes lines-spin {
+  to { rotate: 360deg; }
+}
+.lines-spin {
+  animation: lines-spin 120s linear infinite;
+}
+
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+.marquee {
+  animation: marquee 38s linear infinite;
 }
 
 @keyframes nav-load {
@@ -120,14 +303,163 @@ body {
   to { transform: scaleX(0.9); }
 }
 
-/* Scroll reveal: hidden only when JS is running, so no-JS users still see content */
+/* Page change: an ink panel slashes across the screen */
+@keyframes page-wipe {
+  0% { transform: translateX(-110%) skewX(-14deg); }
+  45% { transform: translateX(0) skewX(-14deg); }
+  100% { transform: translateX(115%) skewX(-14deg); }
+}
+.page-wipe {
+  animation: page-wipe 0.62s cubic-bezier(0.7, 0, 0.3, 1) both;
+}
+
+/* Admin panel (/keystatic): hide the site's own fixed chrome so only Keystatic and its popups show */
+body:has([data-keystatic-admin]) > :is(header, nav, footer, button, #site-menu, [aria-label="Terminal tip"], a[href="#main"]) {
+  display: none;
+}
+body:has([data-keystatic-admin])::before,
+body:has([data-keystatic-admin])::after {
+  display: none;
+}
+
+/* Terminal launcher: blinking caret and the tip bubble pop */
+@keyframes caret-blink {
+  50% { opacity: 0; }
+}
+.terminal-caret {
+  animation: caret-blink 1.1s steps(1) infinite;
+}
+@keyframes hint-pop {
+  from { opacity: 0; scale: 0.85; }
+}
+.hint-pop {
+  animation: hint-pop 0.35s cubic-bezier(0.34, 1.45, 0.64, 1) both;
+}
+
+/* Skill bars start empty until their card is revealed */
+.js [data-reveal]:not([data-shown]) .skill-bar { width: 0; }
+
+/* Career mode: the player card slides in when another club is picked, key plays follow one by one */
+@keyframes career-swap {
+  from { opacity: 0; transform: translateX(24px); clip-path: polygon(0 0, 10% 0, 0 100%, 0 100%); }
+  to { opacity: 1; transform: none; clip-path: polygon(0 0, 140% 0, 120% 100%, 0 100%); }
+}
+.career-swap {
+  animation: career-swap 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes career-play {
+  from { opacity: 0; transform: translateY(8px); }
+}
+.career-play {
+  animation: career-play 0.4s cubic-bezier(0.34, 1.3, 0.64, 1) both;
+}
+
+/* Scroll reveal: a panel is "drawn" with a slanted wipe. Hidden only when JS is running. */
+/* The clip sits on the child: IntersectionObserver treats a fully self-clipped target as never visible. */
 [data-reveal] {
-  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  transition:
+    opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.6s cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+[data-reveal] > * {
+  clip-path: polygon(-20% -20%, 140% -20%, 120% 130%, -20% 130%);
+  transition: clip-path 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: inherit;
 }
 .js [data-reveal]:not([data-shown]) {
   opacity: 0;
   transform: translateY(14px);
 }
+.js [data-reveal]:not([data-shown]) > * {
+  clip-path: polygon(-20% -20%, -10% -20%, -30% 130%, -20% 130%);
+}
+
+/* Blue offset copy behind display type (one text node, wraps naturally) */
+.offset-accent {
+  text-shadow: 0.045em 0.045em 0 var(--accent), 0 0 20px var(--glow);
+}
+
+@keyframes menu-in {
+  from { opacity: 0; transform: translate(12px, -12px) rotate(2deg) scale(0.94); }
+  to { opacity: 1; transform: none; }
+}
+.menu-panel {
+  transform-origin: top right;
+  animation: menu-in 0.22s cubic-bezier(0.34, 1.45, 0.64, 1) both;
+}
+
+/* ---------- Football: goal state set by BallJourney ---------- */
+.goal-label {
+  opacity: 0;
+  transform: scale(0.3) rotate(-24deg);
+  transition: opacity 0.2s ease, transform 0.45s cubic-bezier(0.34, 1.8, 0.64, 1);
+}
+[data-goal="scored"] .goal-label {
+  opacity: 1;
+  transform: scale(1) rotate(-8deg);
+}
+.goal-lines {
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 0.3s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+[data-goal="scored"] .goal-lines {
+  opacity: 0.6;
+  transform: scale(1);
+}
+@keyframes net-ripple {
+  0% { transform: scale(1, 1); }
+  35% { transform: scale(1.06, 0.9); }
+  70% { transform: scale(0.98, 1.03); }
+  100% { transform: scale(1, 1); }
+}
+.goal-mesh { transform-box: fill-box; transform-origin: 50% 0; }
+[data-goal="scored"] .goal-mesh { animation: net-ripple 0.6s ease-out 1; }
+
+.ball-rail { transition: opacity 0.3s ease, visibility 0s; }
+.js .ball-rail:not([data-visible]) { opacity: 0; pointer-events: none; visibility: hidden; transition: opacity 0.3s ease, visibility 0s 0.3s; }
+
+.ball {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 30;
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform;
+  transition: opacity 0.3s ease;
+  filter: drop-shadow(0 0 10px var(--glow));
+}
+.ball[data-mode="pitch"] { width: 60px; height: 60px; }
+.ball[data-mode="rail"] { width: 22px; height: 22px; z-index: 41; }
+.ball > svg { filter: drop-shadow(3px 4px 0 rgb(7 8 13 / 0.28)); }
+
+/* Speed lines streaming behind the ball. JS rotates the wrapper to the direction of travel. */
+.ball-trail {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+.ball-trail > span {
+  position: absolute;
+  right: 50%;
+  top: 12%;
+  height: 76%;
+  width: 360%;
+  background-image: repeating-linear-gradient(
+    180deg,
+    transparent 0 3px,
+    var(--accent) 3px 5px,
+    transparent 5px 9px,
+    var(--ink) 9px 10px,
+    transparent 10px 15px
+  );
+  mask-image: linear-gradient(90deg, transparent, black 85%);
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 85%);
+  clip-path: polygon(0 35%, 100% 0, 100% 100%, 0 65%);
+}
+.ball[data-mode="rail"] .ball-trail { display: none; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -140,39 +472,53 @@ body {
     opacity: 1;
     transform: none;
   }
+  .js [data-reveal]:not([data-shown]) > * {
+    clip-path: polygon(-20% -20%, 140% -20%, 120% 130%, -20% 130%);
+  }
+  .marquee, .lines-spin { animation: none; }
+  .page-wipe { display: none; }
 }
 
-/* Long-form content (case studies, blog) */
+/* ---------- Long-form content (case studies, blog) ---------- */
 .prose-body {
   font-size: 1.0625rem;
   line-height: 1.75;
 }
 .prose-body > * + * { margin-top: 1.25em; }
-.prose-body h2 { margin-top: 2.5em; font-size: 1.75rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; }
-.prose-body h3 { margin-top: 2em; font-size: 1.25rem; font-weight: 700; }
-.prose-body a { color: var(--accent); text-decoration: underline; text-underline-offset: 4px; }
-.prose-body ul { list-style: disc; padding-left: 1.25em; }
+.prose-body h2 {
+  margin-top: 2.5em;
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  padding-left: 0.6em;
+  border-left: 4px solid var(--accent);
+}
+.prose-body h3 { margin-top: 2em; font-size: 1.25rem; font-weight: 800; }
+.prose-body a { color: var(--accent); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+.prose-body ul { list-style: square; padding-left: 1.25em; }
+.prose-body ul ::marker { color: var(--accent); }
 .prose-body ol { list-style: decimal; padding-left: 1.25em; }
 .prose-body li + li { margin-top: 0.4em; }
-.prose-body strong { font-weight: 700; }
+.prose-body strong { font-weight: 800; }
 .prose-body :not(pre) > code {
   font-family: var(--font-mono);
   font-size: 0.9em;
   background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 6px;
+  border: 1.5px solid var(--ink);
   padding: 0.1em 0.35em;
 }
 .prose-body pre {
   font-family: var(--font-mono);
   font-size: 0.875rem;
   overflow-x: auto;
-  border: 1px solid var(--line);
-  border-radius: 12px;
+  border: 2px solid var(--ink);
+  box-shadow: 4px 4px 0 0 var(--shadow);
   padding: 1rem 1.25rem;
 }
 .prose-body table { width: 100%; border-collapse: collapse; }
-.prose-body th, .prose-body td { border-bottom: 1px solid var(--line); padding: 0.5rem; text-align: left; }
+.prose-body th, .prose-body td { border-bottom: 1.5px solid var(--line); padding: 0.5rem; text-align: left; }
+.prose-body th { border-bottom: 3px solid var(--ink); }
 
 /* Shiki dual themes follow the site theme */
 .shiki, .shiki span { color: var(--shiki-light); background-color: var(--shiki-light-bg); }
@@ -181,4 +527,12 @@ body {
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .shiki,
   :root:not([data-theme="light"]) .shiki span { color: var(--shiki-dark); background-color: var(--shiki-dark-bg); }
+}
+
+/* Scroll speed field: vertical streaks at the page edges, brightened by scroll speed (SpeedField) */
+.scroll-lines {
+  background-image:
+    repeating-linear-gradient(90deg, transparent 0 13px, var(--speed) 13px 14px, transparent 14px 37px, var(--speed) 37px 39px, transparent 39px 61px);
+  mask-image: radial-gradient(ellipse 62% 75% at 50% 50%, transparent 55%, black 100%);
+  -webkit-mask-image: radial-gradient(ellipse 62% 75% at 50% 50%, transparent 55%, black 100%);
 }

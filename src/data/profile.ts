@@ -1,16 +1,6 @@
+// Content lives in src/content/settings/*.json and is edited in the admin panel (/keystatic). Do not hardcode it here.
 import { profileSchema } from '@/lib/schemas';
 import { guardFillIns } from '@/lib/fill-in';
+import data from '@/content/settings/profile.json';
 
-export const profile = guardFillIns(
-  profileSchema.parse({
-    name: 'Angad Kumar',
-    headline: 'Full-stack engineer (.NET + TypeScript)',
-    location: 'New Delhi, India',
-    availability: 'Open to remote roles worldwide',
-    email: 'angad.ak70@gmail.com',
-    github: 'https://github.com/Angadak',
-    linkedin: 'https://www.linkedin.com/in/angad-kumar-22173a175/',
-    careerStart: '2022-04',
-  }),
-  'src/data/profile.ts',
-);
+export const profile = guardFillIns(profileSchema.parse(data), 'src/content/settings/profile.json');

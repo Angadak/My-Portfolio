@@ -24,3 +24,19 @@ export function formatMonth(value: string): string {
 export function formatPeriod(start: string, end?: string): string {
   return `${formatMonth(start)} – ${end ? formatMonth(end) : 'Present'}`;
 }
+
+/** Whole months from `start` to `end` (or `now` for a current role), never below 1. */
+export function monthsBetween(start: string, end?: string, now: Date = new Date()): number {
+  const a = parseMonth(start);
+  const b = end ? parseMonth(end) : { year: now.getFullYear(), month: now.getMonth() + 1 };
+  return Math.max(1, (b.year - a.year) * 12 + (b.month - a.month));
+}
+
+/** "8 mo", "1 yr", "1 yr 8 mo", "2 yrs 3 mo". */
+export function formatDuration(months: number): string {
+  const years = Math.floor(months / 12);
+  const rest = months % 12;
+  const y = years === 0 ? '' : `${years} ${years === 1 ? 'yr' : 'yrs'}`;
+  const m = rest === 0 ? '' : `${rest} mo`;
+  return [y, m].filter(Boolean).join(' ') || '1 mo';
+}

@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { ButtonLink } from '@/components/ui/button';
 import { SectionHeading } from '@/components/ui/section-heading';
+import { PageHeading } from '@/components/ui/page-heading';
 import { Socials } from '@/components/ui/socials';
 import { PropIcon, PROP_NAMES } from '@/components/props/props';
 
@@ -19,10 +20,21 @@ describe('ButtonLink', () => {
 });
 
 describe('SectionHeading', () => {
-  it('renders the label and an h2', () => {
-    render(<SectionHeading id="x" index="01" label="Case studies" word="WORK" prop="browser" />);
-    expect(screen.getByText('01 / Case studies')).toBeInTheDocument();
-    expect(screen.getByRole('heading', { level: 2, name: 'WORK' })).toHaveAttribute('id', 'x');
+  it('renders the kicker and a focusable h2 marked as a ball stop', () => {
+    render(<SectionHeading id="x" index="01" label="Work" title="Things I've built" />);
+    expect(screen.getByText('01 — Work')).toBeInTheDocument();
+    const heading = screen.getByRole('heading', { level: 2, name: "Things I've built" });
+    expect(heading).toHaveAttribute('id', 'x');
+    expect(heading).toHaveAttribute('data-ball-stop');
+    expect(heading).toHaveAttribute('tabindex', '-1');
+  });
+});
+
+describe('PageHeading', () => {
+  it('renders the kicker and the page h1', () => {
+    render(<PageHeading kicker="Work" title="Case studies" />);
+    expect(screen.getByText('Work')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 1, name: 'Case studies' })).toBeInTheDocument();
   });
 });
 

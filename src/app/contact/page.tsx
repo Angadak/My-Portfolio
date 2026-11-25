@@ -4,10 +4,12 @@ import { ContactForm } from '@/components/contact/contact-form';
 import { CopyEmailButton } from '@/components/contact/copy-email-button';
 import { ButtonLink } from '@/components/ui/button';
 import { Socials } from '@/components/ui/socials';
+import { PageHeading } from '@/components/ui/page-heading';
+import { siteCopy } from '@/data/site';
 
 export const metadata: Metadata = {
   title: 'Contact',
-  description: 'Get in touch with Angad Kumar about full-stack .NET and TypeScript roles or projects.',
+  description: `Get in touch with ${profile.name} about roles or projects.`,
   alternates: { canonical: '/contact' },
 };
 
@@ -15,12 +17,9 @@ export default function ContactPage() {
   return (
     <div className="mx-auto grid max-w-6xl gap-16 px-4 py-16 sm:px-8 lg:grid-cols-[1fr_1.1fr]">
       <div>
-        <p className="label text-accent">Contact</p>
-        <h1 className="word-heading mt-3 text-[clamp(2.75rem,8vw,5.5rem)] font-black leading-none tracking-[-0.03em]">
-          Let&apos;s talk
-        </h1>
+        <PageHeading kicker="Contact" title={siteCopy.contactPageTitle} />
         <p className="mt-6 max-w-md text-lg text-muted">
-          Hiring for a full-stack .NET or TypeScript role, or have a project in mind? Send a message or reach me directly.
+          {siteCopy.contactPageIntro}
         </p>
         <dl className="mt-10 space-y-6">
           <div>
@@ -44,12 +43,12 @@ export default function ContactPage() {
           </div>
         </dl>
         <div className="mt-10">
-          <ButtonLink href="/cv.pdf" variant="secondary" download>
+          <ButtonLink href={profile.cv} variant="secondary" download>
             Download CV
           </ButtonLink>
         </div>
       </div>
-      <div className="rounded-2xl border border-line bg-surface p-6 sm:p-8">
+      <div className="panel p-6 sm:p-8">
         <ContactForm email={profile.email} />
       </div>
     </div>

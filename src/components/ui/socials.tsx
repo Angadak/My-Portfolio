@@ -19,7 +19,7 @@ export function Socials({ github, linkedin, email, vertical = false }: Props) {
               aria-label={label}
               target={external ? '_blank' : undefined}
               rel={external ? 'noopener noreferrer' : undefined}
-              className="grid size-9 place-items-center rounded-full border border-line text-fg transition hover:border-accent hover:text-accent active:scale-90"
+              className="grid size-10 place-items-center border-2 border-ink bg-surface text-fg shadow-[2px_2px_0_0_var(--shadow)] transition hover:-translate-x-0.5 hover:-translate-y-0.5 hover:text-accent hover:shadow-[3px_3px_0_0_var(--accent)] active:scale-90"
             >
               <Icon className="size-4" />
             </a>

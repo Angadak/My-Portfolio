@@ -8,8 +8,8 @@ import { TiltCard } from '@/components/motion/tilt-card';
 export function ProjectCard({ project }: { project: Project }) {
   return (
     <TiltCard className="h-full">
-      <article className="flex h-full flex-col rounded-xl border border-line bg-surface p-6">
-        <h3 className="text-xl font-semibold tracking-tight">
+      <article className="panel panel-hit flex h-full flex-col p-6">
+        <h3 className="font-display text-xl">
           <Link href={`/projects/${project.slug}`} className="hover:text-accent">
             {project.title}
           </Link>
@@ -22,7 +22,7 @@ export function ProjectCard({ project }: { project: Project }) {
             </li>
           ))}
         </ul>
-        <div className="mt-auto flex gap-4 pt-6 text-sm font-medium">
+        <div className="mt-auto flex gap-4 pt-6 text-sm font-extrabold uppercase tracking-[0.08em]">
           {project.liveUrl && (
             <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="text-accent underline underline-offset-4">
               Live demo
@@ -37,11 +37,11 @@ export function ProjectCard({ project }: { project: Project }) {
   );
 }
 
-export function ProjectsSection({ projects, index }: { projects: Project[]; index: string }) {
+export function ProjectsSection({ projects, index, title = 'Open-source builds' }: { projects: Project[]; index: string; title?: string }) {
   if (projects.length === 0) return null;
   return (
     <section aria-labelledby="projects" className="mx-auto max-w-6xl px-4 py-24 sm:px-8">
-      <SectionHeading id="projects" index={index} label="Open-source demos" word="BUILDS" prop="api" />
+      <SectionHeading id="projects" index={index} label="Projects" title={title} />
       <div className="grid gap-6 md:grid-cols-2">
         {projects.map((project) => (
           <Reveal key={project.slug} className="h-full">

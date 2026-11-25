@@ -2,11 +2,12 @@ import Link from 'next/link';
 
 type Variant = 'primary' | 'secondary';
 
+// Manga buttons: square ink frame, hard offset shadow, lifts toward the reader on hover.
 const base =
-  'inline-flex h-11 items-center gap-2 rounded-full px-5 text-sm font-semibold transition active:scale-95';
+  'inline-flex h-12 items-center gap-2 border-2 border-ink px-5 text-sm font-bold uppercase tracking-[0.1em] transition-[transform,box-shadow,background-color,color] duration-200 ease-out hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none';
 const variants: Record<Variant, string> = {
-  primary: 'bg-fg text-bg hover:bg-accent hover:text-bg',
-  secondary: 'border border-line bg-surface text-fg hover:border-accent hover:text-accent',
+  primary: 'bg-accent text-on-accent shadow-[3px_3px_0_0_var(--ink)] hover:shadow-[5px_5px_0_0_var(--ink)]',
+  secondary: 'bg-surface text-fg shadow-[3px_3px_0_0_var(--shadow)] hover:text-accent hover:shadow-[5px_5px_0_0_var(--accent)]',
 };
 
 export function buttonClass(variant: Variant = 'primary', className = ''): string {

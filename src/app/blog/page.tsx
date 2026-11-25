@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getPosts } from '@/lib/content';
+import { PageHeading } from '@/components/ui/page-heading';
 
 export const metadata: Metadata = {
   title: 'Notes',
@@ -16,8 +17,7 @@ export default function BlogPage() {
   if (posts.length === 0) notFound();
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-8">
-      <p className="label text-accent">Writing</p>
-      <h1 className="word-heading mt-3 text-[clamp(2.75rem,8vw,5.5rem)] font-black leading-none tracking-[-0.03em]">Notes</h1>
+      <PageHeading kicker="Writing" title="Notes" />
       <ul className="mt-12 divide-y divide-line border-y border-line">
         {posts.map((post) => (
           <li key={post.slug} className="py-6">

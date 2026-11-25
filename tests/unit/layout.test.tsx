@@ -1,12 +1,7 @@
-import { describe, expect, it, vi } from 'vitest';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
+import { render, screen } from '@testing-library/react';
 import { buildNav } from '@/lib/site';
-import { NavLinks } from '@/components/layout/nav-links';
-import { MobileMenu } from '@/components/layout/mobile-menu';
-import { InteractiveButtons } from '@/components/layout/interactive-buttons';
-import { OPEN_PALETTE, OPEN_TERMINAL } from '@/lib/events';
-
-vi.mock('next/navigation', () => ({ usePathname: () => '/work/tris' }));
+import { SiteTopBar } from '@/components/layout/site-top-bar';
 
 describe('buildNav', () => {
   it('hides Projects and Blog until they have content', () => {
@@ -21,36 +16,11 @@ describe('buildNav', () => {
   });
 });
 
-describe('NavLinks', () => {
-  it('marks the current section', () => {
-    render(<NavLinks items={buildNav({ hasProjects: false, hasPosts: false })} />);
-    expect(screen.getByRole('link', { name: 'Work' })).toHaveAttribute('aria-current', 'page');
-    expect(screen.getByRole('link', { name: 'Contact' })).not.toHaveAttribute('aria-current');
-  });
-});
-
-describe('MobileMenu', () => {
-  it('opens and closes', () => {
-    render(<MobileMenu items={buildNav({ hasProjects: false, hasPosts: false })} />);
-    const toggle = screen.getByRole('button', { name: /menu/i });
-    expect(toggle).toHaveAttribute('aria-expanded', 'false');
-    fireEvent.click(toggle);
-    expect(toggle).toHaveAttribute('aria-expanded', 'true');
-    fireEvent.click(screen.getAllByRole('link', { name: 'Experience' })[0]);
-    expect(toggle).toHaveAttribute('aria-expanded', 'false');
-  });
-});
-
-describe('InteractiveButtons', () => {
-  it('dispatches open events', () => {
-    const terminal = vi.fn();
-    const palette = vi.fn();
-    window.addEventListener(OPEN_TERMINAL, terminal);
-    window.addEventListener(OPEN_PALETTE, palette);
-    render(<InteractiveButtons />);
-    fireEvent.click(screen.getByRole('button', { name: /terminal/i }));
-    fireEvent.click(screen.getByRole('button', { name: /command palette/i }));
-    expect(terminal).toHaveBeenCalledTimes(1);
-    expect(palette).toHaveBeenCalledTimes(1);
+describe('SiteTopBar', () => {
+  it('shows the name as a home link inside the banner', () => {
+    render(<SiteTopBar name="Angad Kumar" />);
+    const link = screen.getByRole('link', { name: 'Angad Kumar, home' });
+    expect(link).toHaveAttribute('href', '/');
+    expect(screen.getByRole('banner')).toContainElement(link);
   });
 });

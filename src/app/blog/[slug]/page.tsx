@@ -37,7 +37,7 @@ export default async function PostPage({ params }: Params) {
       <time dateTime={post.date.toISOString()} className="label text-accent">
         {dateFormat.format(post.date)}
       </time>
-      <h1 className="mt-3 text-4xl font-black tracking-tight sm:text-5xl">{post.title}</h1>
+      <h1 className="mt-3 font-display text-4xl font-extrabold tracking-[-0.02em] sm:text-5xl">{post.title}</h1>
       <p className="mt-4 text-lg text-muted">{post.summary}</p>
       <ul className="mt-4 flex flex-wrap gap-2">
         {post.tags.map((tag) => (

@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export function Callout({ title, children }: { title?: string; children: React.ReactNode }) {
   return (
-    <aside className="my-8 rounded-xl border border-line border-l-4 border-l-accent bg-surface p-5">
+    <aside className="my-8 panel border-l-[10px] border-l-accent p-5">
       {title && <p className="label mb-2 text-accent">{title}</p>}
       <div className="text-fg">{children}</div>
     </aside>
